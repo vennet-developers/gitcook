@@ -47,6 +47,12 @@ const welcome = () => {
   );
 };
 
+const initWizard = () => {
+  inquirer.prompt(questions).then((answers: object) => {
+    console.log(answers);
+  });
+};
+
 program
   .name("clitype")
   .description("CLI to some JavaScript string utilities")
@@ -69,10 +75,7 @@ program.command("check").action(() => {
 
 program.command("init").action(() => {
   welcome();
-
-  inquirer.prompt(questions).then((answers: unknown) => {
-    console.log(answers);
-  });
+  initWizard();
 });
 
 program.parse(process.argv);

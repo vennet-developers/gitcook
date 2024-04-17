@@ -8,6 +8,7 @@
     "clitype": "--no-warnings ./dist/index.js"
   },
   "scripts": {
+    "link:pkg": "(pnpm --global unlink cli-typescript-scaffolding || true) && chmod +x ./dist/index.js && pnpm --global link",
     "dev": "rm -rf dist && tsc -w",
     "build": "rm -rf dist && tsc"
   },
