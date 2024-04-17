@@ -7,10 +7,27 @@ import chalk from "chalk";
 import { Command } from "commander";
 import figlet from "figlet";
 import * as emoji from "node-emoji";
+import inquirer from "inquirer";
 
 import pkg from "../package.json" assert { type: "json" };
 
 const program = new Command();
+
+const questions: object = [
+  {
+    name: "finalpath",
+    type: "input",
+    message: "Enter path where you want to add the project react:",
+    default: process.cwd(),
+    validate: (value: string) => {
+      if (value.length) {
+        return true;
+      }
+
+      return "Please enter your final path:";
+    },
+  },
+];
 
 const update = () => {
   console.clear();
@@ -52,6 +69,10 @@ program.command("check").action(() => {
 
 program.command("init").action(() => {
   welcome();
+
+  inquirer.prompt(questions).then((answers: unknown) => {
+    console.log(answers);
+  });
 });
 
 program.parse(process.argv);
