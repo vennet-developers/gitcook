@@ -2,23 +2,29 @@
   "name": "cli-typescript-scaffolding",
   "version": "0.0.1",
   "description": "",
+  "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "clitype": "./dist/index.js"
+    "clitype": "--no-warnings ./dist/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc -w",
-    "build": "tsc"
+    "dev": "rm -rf dist && tsc -w",
+    "build": "rm -rf dist && tsc"
   },
   "keywords": [],
   "author": "Ivan Avila <ivelaval@gmail.com> (http://ivandev.com/)",
   "license": "ISC",
   "devDependencies": {
+    "@types/figlet": "^1.5.8",
     "@types/node": "^20.12.7",
+    "@types/update-notifier": "^6.0.8",
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "commander": "^12.0.0"
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "figlet": "^1.7.0",
+    "node-emoji": "^2.1.3",
+    "update-notifier": "^7.0.0"
   }
 }
