@@ -1,5 +1,5 @@
 {
-  "name": "conventional-commits-cli",
+  "name": "@vennet/ccli",
   "version": "0.0.1",
   "description": "",
   "type": "module",
@@ -8,7 +8,8 @@
     "ccli": "./dist/index.js"
   },
   "scripts": {
-    "link:pkg": "(pnpm --global unlink conventional-commits-cli || true) && chmod +x ./dist/index.js && pnpm --global link",
+    "link:pkg": "(pnpm --global unlink @vennet/ccli || true) && chmod +x ./dist/index.js && pnpm --global link",
+    "unlink:pkg": "(pnpm --global unlink @vennet/ccli || true)",
     "dev": "rm -rf dist && tsc -w",
     "build": "rm -rf dist && tsc"
   },

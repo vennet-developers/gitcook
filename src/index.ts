@@ -41,7 +41,7 @@ const update = () => {
 const welcome = () => {
   console.clear();
   console.log(
-    chalk.green(figlet.textSync("Clitype", { horizontalLayout: "full" })),
+    chalk.green(figlet.textSync("ccli", { horizontalLayout: "full" })),
     chalk.red(`\n CLI scaffolding tool, made with ${emoji.emojify(":heart:")}`),
     chalk.yellow(`\n Version: ${pkg.version} \n\n`)
   );
@@ -53,9 +53,11 @@ const initWizard = () => {
   });
 };
 
+const stats = () => {};
+
 program
-  .name("clitype")
-  .description("CLI to some JavaScript string utilities")
+  .name("ccli")
+  .description("CLI to conventional commits")
   .version(pkg.version);
 
 program

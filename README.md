@@ -1,4 +1,4 @@
-<h1 align="center">Conventional Commits CLI (CCLI) ⚡️</h1>
+<h1 align="center">Conventional Commits CLI - CCLI ⚡️ Vennet</h1>
 
 <br />
 
@@ -21,18 +21,18 @@ Conventional Commits CLI is a powerfull tool for standarize the commits and chan
 ## Installation
 
 To use CCLI, all you need to do is install the
-`conventional-commits-cli` package:
+`@vennet/ccli` package:
 
 ```sh
 # with Yarn
-$ yarn add conventional-commits-cli
+$ yarn add @vennet/ccli
 
 # with npm
-$ npm i conventional-commits-cli
+$ npm i @vennet/ccli
 
 # with pnpm
-$ pnpm add conventional-commits-cli
+$ pnpm add @vennet/ccli
 
 # with Bun
-$ bun add conventional-commits-cli
+$ bun add @vennet/ccli
 ```
