@@ -53,31 +53,55 @@ const initWizard = () => {
   });
 };
 
-const stats = () => {};
+const stats = async () => {
+  const response = await fetch(
+    `https://api.npmjs.org/downloads/point/last-month/${pkg.name}`
+  );
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  const data: any = await response.json();
+  console.log(`Tha package has ${data.downloads || 0} downloads last month`);
+};
 
-program
-  .name("ccli")
-  .description("CLI to conventional commits")
-  .version(pkg.version);
+try {
+  program
+    .name("ccli")
+    .description("CLI to conventional commits")
+    .version(pkg.version);
 
-program
-  .command("split")
-  .description("Split a string into substrings and display as an array")
-  .argument("<string>", "string to split")
-  .option("--first", "display just the first substring")
-  .option("-s, --separator <char>", "separator character", ",")
-  .action((str: string, options: any) => {
-    const limit = options.first ? 1 : undefined;
-    console.log(str.split(options.separator, limit));
-  });
+  program
+    .command("split")
+    .description("Split a string into substrings and display as an array")
+    .argument("<string>", "string to split")
+    .option("--first", "display just the first substring")
+    .option("-s, --separator <char>", "separator character", ",")
+    .action((str: string, options: any) => {
+      const limit = options.first ? 1 : undefined;
+      console.log(str.split(options.separator, limit));
+    });
 
-program.command("check").action(() => {
-  update();
-});
+  program
+    .command("check")
+    .description("Split a string into substrings and display as an array")
+    .action(() => {
+      update();
+    });
 
-program.command("init").action(() => {
-  welcome();
-  initWizard();
-});
+  program
+    .command("init")
+    .description("Split a string into substrings and display as an array")
+    .action(() => {
+      welcome();
+      initWizard();
+    });
 
-program.parse(process.argv);
+  program
+    .command("stats")
+    .description("Split a string into substrings and display as an array")
+    .action(() => {
+      stats();
+    });
+
+  program.parse(process.argv);
+} catch (e) {
+  console.log("Inconpatibility error realted to file support");
+}
