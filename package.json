@@ -1,6 +1,6 @@
 {
   "name": "@vennet/ccli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
@@ -8,10 +8,12 @@
     "ccli": "./dist/index.js"
   },
   "scripts": {
-    "link:pkg": "(pnpm --global unlink @vennet/ccli || true) && chmod +x ./dist/index.js && pnpm --global link",
-    "unlink:pkg": "(pnpm --global unlink @vennet/ccli || true)",
+    "pkg:link": "(pnpm --global unlink @vennet/ccli || true) && chmod +x ./dist/index.js && pnpm --global link",
+    "pkg:unlink": "(pnpm --global unlink @vennet/ccli || true)",
     "dev": "rm -rf dist && tsc -w",
-    "build": "rm -rf dist && tsc"
+    "build": "rm -rf dist && tsc",
+    "pkg:version": "changeset && changeset version",
+    "pkg:publish": "changeset publish"
   },
   "keywords": [],
   "author": "Ivan Avila <ivelaval@gmail.com> (http://ivandev.com/)",
@@ -31,6 +33,9 @@
     "inquirer": "^9.2.19",
     "node-emoji": "^2.1.3",
     "update-notifier": "^7.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "volta": {
     "node": "20.12.2"
