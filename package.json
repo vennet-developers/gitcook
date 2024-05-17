@@ -17,6 +17,7 @@
   "author": "Ivan Avila <ivelaval@gmail.com> (http://ivandev.com/)",
   "license": "ISC",
   "devDependencies": {
+    "@changesets/cli": "^2.27.1",
     "@types/figlet": "^1.5.8",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.12.7",
