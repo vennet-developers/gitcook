@@ -8,10 +8,13 @@
     "ccli": "./dist/index.js"
   },
   "scripts": {
-    "pkg:link": "(pnpm --global unlink @vennet/ccli || true) && chmod +x ./dist/index.js && pnpm --global link",
-    "pkg:unlink": "pnpm --global unlink @vennet/ccli",
     "dev": "rm -rf dist && tsc -w",
     "build": "rm -rf dist && tsc",
+    "lint": "biome lint --apply src/*",
+    "lint:check": "biome check --apply src/*",
+    "format": "biome format --write src/*",
+    "pkg:link": "(pnpm --global unlink @vennet/ccli || true) && chmod +x ./dist/index.js && pnpm --global link",
+    "pkg:unlink": "pnpm --global unlink @vennet/ccli",
     "pkg:version": "changeset && changeset version",
     "pkg:publish": "changeset publish"
   },
@@ -19,6 +22,7 @@
   "author": "Ivan Avila <ivelaval@gmail.com> (http://ivandev.com/)",
   "license": "ISC",
   "devDependencies": {
+    "@biomejs/biome": "1.7.3",
     "@changesets/cli": "^2.27.1",
     "@types/figlet": "^1.5.8",
     "@types/inquirer": "^9.0.7",
@@ -38,7 +42,7 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=20.12.2 <22.0.0"
+    "node": ">=20.12.2"
   },
   "volta": {
     "node": "20.12.2"
