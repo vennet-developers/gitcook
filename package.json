@@ -1,11 +1,11 @@
 {
-  "name": "@vennet/ccli",
+  "name": "@vennet/gitool",
   "version": "0.0.2",
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "ccli": "./dist/index.js"
+    "gitool": "./dist/index.js"
   },
   "scripts": {
     "dev": "rm -rf dist && tsc -w",
@@ -13,8 +13,8 @@
     "lint": "biome lint --apply src/*",
     "lint:check": "biome check --apply src/*",
     "format": "biome format --write src/*",
-    "pkg:link": "(pnpm --global unlink @vennet/ccli || true) && chmod +x ./dist/index.js && pnpm --global link",
-    "pkg:unlink": "pnpm --global unlink @vennet/ccli",
+    "pkg:link": "(pnpm --global unlink @vennet/gitool || true) && chmod +x ./dist/index.js && pnpm --global link",
+    "pkg:unlink": "pnpm --global unlink @vennet/gitool",
     "pkg:version": "changeset && changeset version",
     "pkg:publish": "changeset publish"
   },

@@ -1,8 +1,8 @@
-<h1 align="center">Conventional Commits CLI - CCLI ⚡️ Vennet</h1>
+<h1 align="center">Vennet ⚡️ Gitool</h1>
 
 <br />
 
-Conventional Commits CLI is a powerfull tool for standarize the commits and changelogs for your teams.
+Git cli tools is a powerfull tool for standarize the commits and changelogs for your teams.
 
 ## Table of contents
 
@@ -24,15 +24,15 @@ To use CCLI, all you need to do is install the
 `@vennet/ccli` package:
 
 ```sh
-# with Yarn
-$ yarn add @vennet/ccli
+# with yarn
+$ yarn add @vennet/gitool -g
 
 # with npm
-$ npm i @vennet/ccli
+$ npm i @vennet/gitool -g
 
 # with pnpm
-$ pnpm add @vennet/ccli
+$ pnpm add @vennet/gitool -g
 
-# with Bun
-$ bun add @vennet/ccli
+# with bun
+$ bun add @vennet/gitool -g
 ```
