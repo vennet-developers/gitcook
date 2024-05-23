@@ -92,6 +92,10 @@ const manager = {
   },
 };
 
+function removeLineBreaks(str: string) {
+  return str.replace(/[\r\n]+/gm, " ");
+}
+
 const getEmojiByConventionalType = (conventionalType: string) => {
   return conventionalType
     ? gitmojiFormatter(
@@ -368,7 +372,11 @@ export const conventionalCommit = async () => {
   const conventionalCommit = prepareConventionalCommit(answers);
 
   const name = execSync("git config --global user.name").toString();
-  console.log(`Lo lograste ${name}, has creado un conventional commit`);
+  console.log(
+    `Felicidades ${removeLineBreaks(
+      name
+    )}, has creado un nuevo conventional commit 🎉`
+  );
 
   exec(
     `git add -A && git commit -am "${conventionalCommit}"`,
