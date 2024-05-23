@@ -4,6 +4,7 @@ import CONVENTIONAL_TYPES from "./conventional-types.json" assert { type: "json"
 import searchList from "@elfiner/inquirer-search-list";
 import InterruptedPrompt from "inquirer-interrupted-prompt";
 import { exec, execSync, type ExecException } from "node:child_process";
+import chalk from "chalk";
 
 type IGenericMetadata = {
   name: string;
@@ -373,9 +374,11 @@ export const conventionalCommit = async () => {
 
   const name = execSync("git config --global user.name").toString();
   console.log(
-    `Felicidades ${removeLineBreaks(
-      name
-    )}, has creado un nuevo conventional commit 🎉`
+    chalk.green(
+      `\nFelicidades ${removeLineBreaks(
+        name
+      )}, has creado un nuevo conventional commit 🎉 \n`
+    )
   );
 
   exec(
