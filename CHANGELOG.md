@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.1.0
+
+### Minor Changes
+
+- New version for improve the conventional commits on many repos in the world
+
 ## 0.0.2
 
 ### Patch Changes
