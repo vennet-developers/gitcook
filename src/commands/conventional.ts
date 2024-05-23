@@ -273,6 +273,7 @@ const conventionalLongDescriptionCommand = async (
       type: "editor",
       message: "Enter a long description [optional]:",
       default: undefined,
+      interruptedKeyName: "q",
     },
   ];
 
@@ -298,6 +299,7 @@ const conventionalFooterCommand = async (prevAnswers: IInquirerAnswers) => {
       type: "editor",
       message: "Enter a footer description [optional]:",
       default: undefined,
+      interruptedKeyName: "q",
     },
   ];
 
