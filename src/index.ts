@@ -9,6 +9,8 @@ import figlet from "figlet";
 import inquirer from "inquirer";
 import * as emoji from "node-emoji";
 
+import { conventionalCommit } from "./commands/conventional.js";
+
 import pkg from "../package.json" assert { type: "json" };
 
 const program = new Command();
@@ -27,6 +29,19 @@ const questions: object = [
       return "Please enter your final path:";
     },
   },
+  {
+    name: "longmessage",
+    type: "editor",
+    message: "Enter a long description:",
+    default: "",
+    validate: (value: string) => {
+      if (value.length) {
+        return true;
+      }
+
+      return "Please enter your long description";
+    },
+  },
 ];
 
 const update = () => {
@@ -41,24 +56,35 @@ const update = () => {
 const welcome = () => {
   console.clear();
   console.log(
-    chalk.green(figlet.textSync("ccli", { horizontalLayout: "full" })),
-    chalk.red(`\n CLI scaffolding tool, made with ${emoji.emojify(":heart:")}`),
+    chalk.green(figlet.textSync("gitool", { horizontalLayout: "full" })),
+    chalk.red(`\n CLI tool, made with ${emoji.emojify(":heart:")}`),
     chalk.yellow(`\n Version: ${pkg.version} \n\n`)
   );
 };
 
 const initWizard = () => {
-  inquirer.prompt(questions).then((answers: object) => {
-    console.log(answers);
-  });
+  inquirer
+    .prompt(questions)
+    .then((answers: object) => {
+      console.log(answers);
+    })
+    .catch((error) => {
+      if (error.isTtyError) {
+        console.error("Prompt couldn't be rendered in the current environment");
+      } else {
+        console.error(error);
+      }
+    });
 };
 
 const stats = async () => {
   const response = await fetch(
     `https://api.npmjs.org/downloads/point/last-month/${pkg.name}`
   );
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const data: any = await response.json();
+
+  const data: { downloads: number } = (await response.json()) as {
+    downloads: number;
+  };
   console.log(`Tha package has ${data.downloads || 0} downloads last month`);
 };
 
@@ -99,6 +125,13 @@ try {
     .description("Split a string into substrings and display as an array")
     .action(() => {
       stats();
+    });
+
+  program
+    .command("conventional")
+    .description("Wizard to create a conventional commit")
+    .action(() => {
+      conventionalCommit();
     });
 
   program.parse(process.argv);
