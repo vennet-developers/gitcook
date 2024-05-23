@@ -377,7 +377,7 @@ export const conventionalCommit = async () => {
     chalk.green(
       `\nFelicidades ${removeLineBreaks(
         name
-      )}, has creado un nuevo conventional commit 🎉 \n`
+      ).trim()}, has creado un nuevo conventional commit 🎉 \n`
     )
   );
 
