@@ -1,0 +1,57 @@
+{
+  "build": {
+    "name": "Build",
+    "value": "build",
+    "description": "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)"
+  },
+  "chore": {
+    "name": "Chore",
+    "value": "chore",
+    "description": "Changes which doesn't change source code or tests e.g. changes to the build process, auxiliary tools, libraries"
+  },
+  "ci": {
+    "name": "CI",
+    "value": "ci",
+    "description": "Changes to CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)"
+  },
+  "docs": {
+    "name": "Docs",
+    "value": "docs",
+    "description": "Documentation only changes"
+  },
+  "feat": {
+    "name": "Feat",
+    "value": "feat",
+    "description": "A new feature"
+  },
+  "fix": {
+    "name": "Fix",
+    "value": "fix",
+    "description": "A bug fix/hotfix"
+  },
+  "perf": {
+    "name": "Performance",
+    "value": "perf",
+    "description": "A code change that improves performance"
+  },
+  "refactor": {
+    "name": "Refactor",
+    "value": "refactor",
+    "description": "A code change that neither fixes a bug nor adds a feature"
+  },
+  "revert": {
+    "name": "Revert",
+    "value": "revert",
+    "description": "Revert something"
+  },
+  "style": {
+    "name": "Style",
+    "value": "style",
+    "description": "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
+  },
+  "test": {
+    "name": "Test",
+    "value": "test",
+    "description": "Adding missing tests or correcting existing tests"
+  }
+}
