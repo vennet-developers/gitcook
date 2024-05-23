@@ -131,6 +131,8 @@ try {
     .command("conventional")
     .description("Wizard to create a conventional commit")
     .action(() => {
+      update();
+      welcome();
       conventionalCommit();
     });
 

@@ -3,7 +3,7 @@ import GITEMOJIS from "./gitemoji.json" assert { type: "json" };
 import CONVENTIONAL_TYPES from "./conventional-types.json" assert { type: "json" };
 import searchList from "@elfiner/inquirer-search-list";
 import InterruptedPrompt from "inquirer-interrupted-prompt";
-import { exec, type ExecException } from "node:child_process";
+import { exec, execSync, type ExecException } from "node:child_process";
 
 type IGenericMetadata = {
   name: string;
@@ -366,6 +366,9 @@ export const conventionalCommit = async () => {
     );
 
   const conventionalCommit = prepareConventionalCommit(answers);
+
+  const name = execSync("git config --global user.name").toString();
+  console.log(`Lo lograste ${name}, has creado un conventional commit`);
 
   exec(
     `git add -A && git commit -am "${conventionalCommit}"`,
