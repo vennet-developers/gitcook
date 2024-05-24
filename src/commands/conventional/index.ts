@@ -329,46 +329,64 @@ const prepareConventionalCommit = (answers: IInquirerAnswers) => {
   );
 };
 
-export const conventionalCommit = async () => {
-  InterruptedPrompt.fromAll(inquirer);
-  inquirer.registerPrompt("search-list", searchList);
+const isThereChanges = (): boolean => {
+  try {
+    const changes = execSync("git status").toString();
 
-  const answers: IInquirerAnswers = await manager
-    .initState({})
-    .pipe(
-      conventionalTypeCommand,
-      conventionalBreakingChangeCommand,
-      conventionalScopeCommand,
-      conventionalGitmojiCommand,
-      conventionalSummaryDescriptionCommand,
-      conventionalLongDescriptionCommand,
-      conventionalFooterCommand
+    if (changes.indexOf("no changes added to commit") !== -1) {
+      return true;
+    }
+
+    console.log("No existen cambios pendientes");
+    return false;
+  } catch (e) {
+    console.log("No existe un repositorio git en esta ruta");
+    return false;
+  }
+};
+
+export const conventionalCommit = async () => {
+  if (isThereChanges()) {
+    InterruptedPrompt.fromAll(inquirer);
+    inquirer.registerPrompt("search-list", searchList);
+
+    const answers: IInquirerAnswers = await manager
+      .initState({})
+      .pipe(
+        conventionalTypeCommand,
+        conventionalBreakingChangeCommand,
+        conventionalScopeCommand,
+        conventionalGitmojiCommand,
+        conventionalSummaryDescriptionCommand,
+        conventionalLongDescriptionCommand,
+        conventionalFooterCommand
+      );
+
+    const conventionalCommit = prepareConventionalCommit(answers);
+
+    const name = execSync("git config --global user.name").toString();
+    console.log(
+      chalk.green(
+        `\nCongrats ${removeLineBreaks(
+          name
+        ).trim()}, has creado un nuevo conventional commit 🎉 \n`
+      )
     );
 
-  const conventionalCommit = prepareConventionalCommit(answers);
+    exec(
+      `git add -A && git commit -am "${conventionalCommit}"`,
+      (error: ExecException | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+        }
 
-  const name = execSync("git config --global user.name").toString();
-  console.log(
-    chalk.green(
-      `\nCongrats ${removeLineBreaks(
-        name
-      ).trim()}, has creado un nuevo conventional commit 🎉 \n`
-    )
-  );
-
-  exec(
-    `git add -A && git commit -am "${conventionalCommit}"`,
-    (error: ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.log(`error: ${error.message}`);
-        return;
+        console.log(`stdout: ${stdout}`);
       }
-      if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-      }
-
-      console.log(`stdout: ${stdout}`);
-    }
-  );
+    );
+  }
 };
