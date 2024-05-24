@@ -1,5 +1,14 @@
 # @vennet/ccli
 
+## 0.4.0
+
+### Minor Changes
+
+- - build(core): 🚧 Command publish was updated to push changes published
+  - build(core): 🚧 Some validations and scripts were improved
+  - fix(core): 🐛 Some improvements a fixes were added to git command executions
+  - fix(core): 🐛 Some extra console.log were removed and a lityle bug in the return of async comnad line
+
 ## 0.3.0
 
 ### Minor Changes
