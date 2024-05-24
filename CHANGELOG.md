@@ -1,5 +1,12 @@
 # @vennet/ccli
 
+## 0.2.0
+
+### Minor Changes
+
+- - Some decouple refactor was made to improve the scalability
+  - Some logs were translate to eeglish
+
 ## 0.1.0
 
 ### Minor Changes
