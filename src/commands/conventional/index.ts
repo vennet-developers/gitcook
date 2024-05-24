@@ -337,10 +337,10 @@ const isThereChanges = (): boolean => {
       return true;
     }
 
-    console.log("No existen cambios pendientes");
+    console.log(chalk.green("Impeccable ✨, you have no changes to manage"));
     return false;
   } catch (e) {
-    console.log("No existe un repositorio git en esta ruta");
+    console.log(chalk.red("🚫 Ups, there is no git repository at this path"));
     return false;
   }
 };
@@ -369,7 +369,7 @@ export const conventionalCommit = async () => {
       chalk.green(
         `\nCongrats ${removeLineBreaks(
           name
-        ).trim()}, has creado un nuevo conventional commit 🎉 \n`
+        ).trim()}, You have created a new conventional commit 🎉 \n`
       )
     );
 
