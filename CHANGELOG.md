@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.4.2
+
+### Patch Changes
+
+- build(core): 🚧 package script for publish was improved adding the push after version generation
+
 ## 0.4.1
 
 ### Patch Changes
