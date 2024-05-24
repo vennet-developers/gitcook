@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.4.1
+
+### Patch Changes
+
+- - build(core): 🚧 package script for generate version was completed
+
 ## 0.4.0
 
 ### Minor Changes
