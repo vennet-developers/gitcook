@@ -1,51 +1,22 @@
 import inquirer from "inquirer";
-import GITEMOJIS from "./gitemoji.json" assert { type: "json" };
-import CONVENTIONAL_TYPES from "./conventional-types.json" assert { type: "json" };
+import { exec, execSync, type ExecException } from "node:child_process";
 import searchList from "@elfiner/inquirer-search-list";
 import InterruptedPrompt from "inquirer-interrupted-prompt";
-import { exec, execSync, type ExecException } from "node:child_process";
+
 import chalk from "chalk";
+import {
+  SUGGESTION_EMOJI_TYPES,
+  GITEMOJIS,
+  CONVENTIONAL_TYPES,
+} from "./consts/gitmoji.js";
 
-type IGenericMetadata = {
-  name: string;
-  value: string | number;
-  description: string;
-};
-
-type IGenericChoices = {
-  name: string;
-  value?: string | number;
-  key?: string | number;
-};
-
-type IGenericObject = {
-  [key: string]: IGenericMetadata;
-};
-
-type IInquirerAnswers = { [key: string]: string };
-
-type chainFn = (
-  prevAnswers: IInquirerAnswers
-) => Promise<IInquirerAnswers> | string;
-
-type IFormatterFunction = (
-  key: string,
-  fullObject: IGenericObject
-) => string | IGenericChoices;
-
-const SUGGESTION_EMOJI_TYPES = {
-  [CONVENTIONAL_TYPES.build.value]: GITEMOJIS[":construction:"].name,
-  [CONVENTIONAL_TYPES.chore.value]: GITEMOJIS[":wrench:"].name,
-  [CONVENTIONAL_TYPES.ci.value]: GITEMOJIS[":construction_worker:"].name,
-  [CONVENTIONAL_TYPES.docs.value]: GITEMOJIS[":memo:"].name,
-  [CONVENTIONAL_TYPES.feat.value]: GITEMOJIS[":sparkles:"].name,
-  [CONVENTIONAL_TYPES.fix.value]: GITEMOJIS[":bug:"].name,
-  [CONVENTIONAL_TYPES.perf.value]: GITEMOJIS[":zap:"].name,
-  [CONVENTIONAL_TYPES.refactor.value]: GITEMOJIS[":recycle:"].name,
-  [CONVENTIONAL_TYPES.revert.value]: GITEMOJIS[":rewind:"].name,
-  [CONVENTIONAL_TYPES.style.value]: GITEMOJIS[":lipstick:"].name,
-  [CONVENTIONAL_TYPES.test.value]: GITEMOJIS[":test_tube:"].name,
-};
+import type {
+  IGenericObject,
+  IGenericChoices,
+  IFormatterFunction,
+  chainFn,
+  IInquirerAnswers,
+} from "./types/conventional.types.js";
 
 const conventionalTypesFormatter = (
   key: string,
@@ -76,9 +47,6 @@ const mapToInquirerListAsObject = (
   return list;
 };
 
-const pipe = (...fns: chainFn[]) =>
-  fns.reduce(async (prevFun, currentFn) => currentFn(await prevFun), {});
-
 const manager = {
   state: {},
   initState: function (optionsAsParams: IInquirerAnswers = {}) {
@@ -106,26 +74,52 @@ const getEmojiByConventionalType = (conventionalType: string) => {
     : "";
 };
 
-const conventionalTypeCommand = async (prevAnswers: IInquirerAnswers) => {
-  const conventionalTypePrompt: object = [
-    {
-      name: "conventional-type",
-      type: "search-list",
-      message: "Enter the type that corresponds to the nature of your commit: ",
-      choices: mapToInquirerListAsObject(
-        CONVENTIONAL_TYPES,
-        conventionalTypesFormatter
-      ),
-      default: CONVENTIONAL_TYPES.feat.value,
-      validate: (value: string) => {
-        if (value.length) {
-          return true;
-        }
+const makePrompt = (
+  options: Record<string, unknown>
+): Record<string, unknown>[] => {
+  const prompt: Record<string, unknown> = {
+    prefix: "🧸 ",
+    suffix: "🐸 ",
+    validate: (value: string) => {
+      if (value.length) {
+        return true;
+      }
 
-        return "Please select the commit type";
-      },
+      return "This value is required";
     },
-  ];
+    ...options,
+  };
+
+  if (!options.required) {
+    const key = "validate";
+    delete prompt[key];
+  }
+
+  return [prompt];
+};
+
+const conventionalTypeCommand = async (prevAnswers: IInquirerAnswers) => {
+  const conventionalTypePrompt: object = makePrompt({
+    required: true,
+    name: "conventional-type",
+    type: "search-list",
+    message: "Select the type that corresponds to the nature of your commit: ",
+    choices: mapToInquirerListAsObject(
+      CONVENTIONAL_TYPES,
+      conventionalTypesFormatter
+    ),
+    default: CONVENTIONAL_TYPES.feat.value,
+    validate: (value: string) => {
+      if (
+        value.length &&
+        (CONVENTIONAL_TYPES as Record<string, unknown>)[value]
+      ) {
+        return true;
+      }
+
+      return "Conventional commit type selected isn't listed";
+    },
+  });
 
   let answers = {};
   try {
@@ -144,14 +138,13 @@ const conventionalTypeCommand = async (prevAnswers: IInquirerAnswers) => {
 const conventionalBreakingChangeCommand = async (
   prevAnswers: IInquirerAnswers
 ) => {
-  const conventionalBreakingChangePrompt: object = [
-    {
-      name: "conventional-breaking-change",
-      type: "confirm",
-      message: "Are you commit a BREAKING CHANGE?",
-      default: false,
-    },
-  ];
+  const conventionalBreakingChangePrompt: object = makePrompt({
+    required: true,
+    name: "conventional-breaking-change",
+    type: "confirm",
+    message: "Are you commit a BREAKING CHANGE? ",
+    default: false,
+  });
 
   let answers = {};
   try {
@@ -168,15 +161,15 @@ const conventionalBreakingChangeCommand = async (
 };
 
 const conventionalScopeCommand = async (prevAnswers: IInquirerAnswers) => {
-  const conventionalScopePrompt: object = [
-    {
-      name: "conventional-scope",
-      type: "input",
-      message:
-        "Enter the scope that describes the section of code you touched [optional]: ",
-      default: undefined,
-    },
-  ];
+  const conventionalScopePrompt: object = makePrompt({
+    required: false,
+    name: "conventional-scope",
+    type: "input",
+    message:
+      "Enter the scope that describes the section of code you touched [optional]: ",
+    default: undefined,
+    interruptedKeyName: "q",
+  });
 
   let answers = {};
   try {
@@ -194,24 +187,14 @@ const conventionalScopeCommand = async (prevAnswers: IInquirerAnswers) => {
 };
 
 const conventionalGitmojiCommand = async (prevAnswers: IInquirerAnswers) => {
-  const conventionalGitmojiPrompt: object = [
-    {
-      name: "conventional-gitmoji",
-      type: "search-list",
-      message: "Select the emoji that reference to your commit: ",
-      choices: mapToInquirerListAsObject(GITEMOJIS, gitmojiFormatter),
-      default: getEmojiByConventionalType(
-        prevAnswers["conventional-type"] ?? ""
-      ),
-      validate: (value: string) => {
-        if (value.length) {
-          return true;
-        }
-
-        return "Please select the commit type";
-      },
-    },
-  ];
+  const conventionalGitmojiPrompt: object = makePrompt({
+    required: true,
+    name: "conventional-gitmoji",
+    type: "search-list",
+    message: "Select the emoji that reference to your commit: ",
+    choices: mapToInquirerListAsObject(GITEMOJIS, gitmojiFormatter),
+    default: getEmojiByConventionalType(prevAnswers["conventional-type"] ?? ""),
+  });
 
   let answers = {};
   try {
@@ -231,21 +214,13 @@ const conventionalGitmojiCommand = async (prevAnswers: IInquirerAnswers) => {
 const conventionalSummaryDescriptionCommand = async (
   prevAnswers: IInquirerAnswers
 ) => {
-  const conventionalSummaryDescriptionPrompt: object = [
-    {
-      name: "conventional-summary-description",
-      type: "input",
-      message: "Enter a summary description:",
-      default: undefined,
-      validate: (value: string) => {
-        if (value.length) {
-          return true;
-        }
-
-        return "Please enter a summary description";
-      },
-    },
-  ];
+  const conventionalSummaryDescriptionPrompt: object = makePrompt({
+    required: true,
+    name: "conventional-summary-description",
+    type: "input",
+    message: "Enter a summary description: ",
+    default: undefined,
+  });
 
   let answers = {};
   try {
@@ -267,15 +242,14 @@ const conventionalSummaryDescriptionCommand = async (
 const conventionalLongDescriptionCommand = async (
   prevAnswers: IInquirerAnswers
 ) => {
-  const conventionalLongDescriptionPrompt: object = [
-    {
-      name: "conventional-long-description",
-      type: "editor",
-      message: "Enter a long description [optional]:",
-      default: undefined,
-      interruptedKeyName: "q",
-    },
-  ];
+  const conventionalLongDescriptionPrompt: object = makePrompt({
+    required: false,
+    name: "conventional-long-description",
+    type: "editor",
+    message: "Enter a long description [optional]: ",
+    default: undefined,
+    interruptedKeyName: "q",
+  });
 
   let answers = {};
   try {
@@ -293,15 +267,14 @@ const conventionalLongDescriptionCommand = async (
 };
 
 const conventionalFooterCommand = async (prevAnswers: IInquirerAnswers) => {
-  const conventionalFooterPrompt: object = [
-    {
-      name: "conventional-footer",
-      type: "editor",
-      message: "Enter a footer description [optional]:",
-      default: undefined,
-      interruptedKeyName: "q",
-    },
-  ];
+  const conventionalFooterPrompt: object = makePrompt({
+    required: false,
+    name: "conventional-footer",
+    type: "editor",
+    message: "Enter a footer description [optional]: ",
+    default: undefined,
+    interruptedKeyName: "q",
+  });
 
   let answers = {};
   try {
@@ -377,7 +350,7 @@ export const conventionalCommit = async () => {
   const name = execSync("git config --global user.name").toString();
   console.log(
     chalk.green(
-      `\nFelicidades ${removeLineBreaks(
+      `\nCongrats ${removeLineBreaks(
         name
       ).trim()}, has creado un nuevo conventional commit 🎉 \n`
     )

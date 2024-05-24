@@ -9,7 +9,7 @@ import figlet from "figlet";
 import inquirer from "inquirer";
 import * as emoji from "node-emoji";
 
-import { conventionalCommit } from "./commands/conventional.js";
+import { conventionalCommit } from "./commands/conventional/index.js";
 
 import pkg from "../package.json" assert { type: "json" };
 

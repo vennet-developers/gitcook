@@ -4,8 +4,24 @@
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
+  "keywords": [
+    "cli",
+    "git",
+    "conventional-commits",
+    "nodejs"
+  ],
+  "author": "Ivan Avila <ivelaval@gmail.com> (http://ivandev.com/)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vennet-developers/gitool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vennet-developers/gitool/issues"
+  },
+  "homepage": "https://github.com/vennet-developers/gitool#readme",
   "bin": {
-    "gitool": "./dist/index.js"
+    "gt": "./dist/index.js"
   },
   "scripts": {
     "dev": "rm -rf dist && tsc -w",
@@ -18,9 +34,6 @@
     "pkg:version": "changeset && changeset version",
     "pkg:publish": "changeset publish"
   },
-  "keywords": [],
-  "author": "Ivan Avila <ivelaval@gmail.com> (http://ivandev.com/)",
-  "license": "ISC",
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
     "@changesets/cli": "^2.27.1",
