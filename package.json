@@ -31,8 +31,8 @@
     "format": "biome format --write src/*",
     "pkg:link": "(pnpm --global unlink @vennet/gitool || true) && chmod +x ./dist/index.js && pnpm --global link",
     "pkg:unlink": "pnpm --global unlink @vennet/gitool",
-    "pkg:version": "changeset && changeset version && git add -A && git commit -am 'New bump version generated' && git push --tags",
-    "pkg:publish": "changeset publish"
+    "pkg:version": "changeset && changeset version && git add -A && git commit -am 'New bump version generated'",
+    "pkg:publish": "git push --tags && changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
