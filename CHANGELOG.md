@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.4.3
+
+### Patch Changes
+
+- build(core): 🚧 publish script in the package was changed
+
 ## 0.4.2
 
 ### Patch Changes
