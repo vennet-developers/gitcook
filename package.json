@@ -32,7 +32,7 @@
     "pkg:link": "(pnpm --global unlink @vennet/gitool || true) && chmod +x ./dist/index.js && pnpm --global link",
     "pkg:unlink": "pnpm --global unlink @vennet/gitool",
     "pkg:version": "changeset && changeset version && git add -A && git commit -am 'New bump version generated'",
-    "pkg:publish": "git push --tags && changeset publish"
+    "pkg:publish": "changeset publish && git push --tags"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
