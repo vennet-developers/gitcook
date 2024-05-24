@@ -335,7 +335,11 @@ const isThereChanges = (): boolean => {
   try {
     const changes = execSync("git status").toString();
 
-    if (changes.indexOf(GIT_INTENTIONS.NO_CHANGES) !== -1) {
+    if (
+      changes.search(GIT_INTENTIONS.NO_CHANGES) ||
+      changes.search(GIT_INTENTIONS.NO_STAGED) ||
+      changes.search(GIT_INTENTIONS.UNTRACKED)
+    ) {
       return true;
     }
 
