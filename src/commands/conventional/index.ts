@@ -335,9 +335,6 @@ const isThereChanges = (): boolean => {
   try {
     const changes = execSync("git status").toString();
 
-    console.log(changes.search(GIT_INTENTIONS.NO_STAGED) !== -1);
-    console.log(changes.search(GIT_INTENTIONS.UNTRACKED) !== -1);
-
     if (
       changes.search(GIT_INTENTIONS.NO_STAGED) !== -1 ||
       changes.search(GIT_INTENTIONS.UNTRACKED) !== -1
@@ -387,9 +384,9 @@ export const conventionalCommit = async (commandOptions: OptionValues) => {
 
     const executeCommit = execSync(
       `git add -A && git commit -am "${conventionalCommit}"`
-    );
+    ).toString();
     console.log(executeCommit);
-    const executePush = execSync("git push");
+    const executePush = execSync("git push").toString();
     console.log(executePush);
   }
 };
