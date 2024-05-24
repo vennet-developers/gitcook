@@ -17,6 +17,8 @@ import type {
   chainFn,
   IInquirerAnswers,
 } from "./types/conventional.types.js";
+import type { OptionValues } from "commander";
+import { GIT_INTENTIONS } from "./consts/gitIntentions.js";
 
 const conventionalTypesFormatter = (
   key: string,
@@ -78,8 +80,8 @@ const makePrompt = (
   options: Record<string, unknown>
 ): Record<string, unknown>[] => {
   const prompt: Record<string, unknown> = {
-    prefix: "🧸 ",
-    suffix: "🐸 ",
+    prefix: "📟 ",
+    suffix: "❇️ ",
     validate: (value: string) => {
       if (value.length) {
         return true;
@@ -333,7 +335,7 @@ const isThereChanges = (): boolean => {
   try {
     const changes = execSync("git status").toString();
 
-    if (changes.indexOf("no changes added to commit") !== -1) {
+    if (changes.indexOf(GIT_INTENTIONS.NO_CHANGES) !== -1) {
       return true;
     }
 
@@ -345,7 +347,7 @@ const isThereChanges = (): boolean => {
   }
 };
 
-export const conventionalCommit = async () => {
+export const conventionalCommit = async (commandOptions: OptionValues) => {
   if (isThereChanges()) {
     InterruptedPrompt.fromAll(inquirer);
     inquirer.registerPrompt("search-list", searchList);
@@ -364,12 +366,16 @@ export const conventionalCommit = async () => {
 
     const conventionalCommit = prepareConventionalCommit(answers);
 
+    if (commandOptions.previewMode) {
+      console.log(`\n\n${chalk.blueBright(conventionalCommit)}\n\n`);
+      return;
+    }
+
     const name = execSync("git config --global user.name").toString();
+    const congrats = `Congrats ${removeLineBreaks(name).trim()}`;
     console.log(
       chalk.green(
-        `\nCongrats ${removeLineBreaks(
-          name
-        ).trim()}, You have created a new conventional commit 🎉 \n`
+        `\n${congrats.trim()}, You have created a new conventional commit 🎉 \n`
       )
     );
 
