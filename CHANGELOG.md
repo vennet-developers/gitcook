@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.4.4
+
+### Patch Changes
+
+- Importante refactor was made to improve the scalability and allowing new functionality
+
 ## 0.4.3
 
 ### Patch Changes
