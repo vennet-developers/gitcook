@@ -1,0 +1,31 @@
+import inquirer from "inquirer";
+import InterruptedPrompt from "inquirer-interrupted-prompt";
+import { makePrompt } from "../../commons/inquirerMakePrompt.js";
+import type { IInquirerAnswers } from "../types/conventional.types.js";
+
+export const conventionalLongDescriptionPrompt = async (
+  prevAnswers: IInquirerAnswers
+) => {
+  const conventionalLongDescriptionPrompt: object = makePrompt({
+    required: false,
+    name: "conventional-long-description",
+    type: "editor",
+    message: "Enter a long description [optional]: ",
+    default: undefined,
+    interruptedKeyName: "q",
+  });
+
+  let answers = {};
+  try {
+    answers = await inquirer.prompt(conventionalLongDescriptionPrompt);
+  } catch (error) {
+    if (error === InterruptedPrompt.EVENT_INTERRUPTED) {
+      answers = { "conventional-long-description": "" };
+      console.log("Prompt has been interrupted!");
+    } else {
+      console.log("Unexpected error was recivied");
+    }
+  }
+
+  return { ...prevAnswers, ...answers };
+};

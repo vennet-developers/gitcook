@@ -6,7 +6,7 @@ import updateNotifier from "update-notifier";
 import { Command, type OptionValues } from "commander";
 import figlet from "figlet";
 import * as emoji from "node-emoji";
-import { conventionalCommit } from "./commands/conventional/index.js";
+import { conventionalCommit } from "./commands/conventional/entryPoint.js";
 import pkg from "../package.json" assert { type: "json" };
 
 const BIN_NAME: string = Object.keys(pkg.bin)[0] as string;
