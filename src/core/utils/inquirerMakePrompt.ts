@@ -19,8 +19,8 @@ export const makePrompt = (
   options: Record<string, unknown>
 ): Record<string, unknown>[] => {
   const prompt: Record<string, unknown> = {
-    prefix: "📟 ",
-    suffix: "❇️ ",
+    prefix: "🍱 ",
+    suffix: "♨︎ ",
     validate: (value: string) => {
       if (value.length) {
         return true;

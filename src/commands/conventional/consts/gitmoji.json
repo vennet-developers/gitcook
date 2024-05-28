@@ -6,7 +6,7 @@
   },
   ":zap:": {
     "name": ":art:",
-    "value": "⚡️",
+    "value": "🚴",
     "description": "Improve performance"
   },
   ":fire:": {
@@ -31,7 +31,7 @@
   },
   ":memo:": {
     "name": ":memo:",
-    "value": "📝",
+    "value": "📖",
     "description": "Add or update documentation"
   },
   ":rocket:": {
@@ -111,7 +111,7 @@
   },
   ":recycle:": {
     "name": ":recycle:",
-    "value": "♻️",
+    "value": "🔩",
     "description": "Refactor code"
   },
   ":heavy_plus_sign:": {
@@ -141,7 +141,7 @@
   },
   ":pencil2:": {
     "name": ":pencil2:",
-    "value": "✏️",
+    "value": "📝",
     "description": "Fix typos"
   },
   ":poop:": {
