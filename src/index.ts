@@ -5,49 +5,76 @@ import chalk from "chalk";
 import updateNotifier from "update-notifier";
 import { Command, type OptionValues } from "commander";
 import figlet from "figlet";
+import Box from "cli-box";
 import * as emoji from "node-emoji";
 import { conventionalCommit } from "./commands/conventional/entryPoint.js";
-import pkg from "../package.json" assert { type: "json" };
-
-const BIN_NAME: string = Object.keys(pkg.bin)[0] as string;
+import { CLI_CONFIG } from "./core/consts/cli-config.js";
 
 const program = new Command();
 
-const checkPackageVersion = () => {
+const checkPackageVersion = (isCheckMode = true) => {
   const notifier = updateNotifier({
     pkg: {
-      name: pkg.name,
-      version: pkg.version,
+      name: CLI_CONFIG.NAME,
+      version: CLI_CONFIG.VERSION,
     },
   });
-  notifier.notify();
+
+  const getBox = (...args: string[]) => {
+    const box = Box(
+      {
+        w: 50,
+        h: 6,
+      },
+      args.join("\n")
+    );
+
+    console.log(chalk.blueBright(box));
+    console.log("\n");
+  };
 
   if (notifier.update) {
-    console.log(notifier.update);
-  } else {
-    console.log(chalk.green("Gitool is up to date!"));
+    getBox(
+      `Update available ${chalk.bold.gray(
+        notifier.update.current
+      )} → ${chalk.bold.green(notifier.update.current)}`,
+      `Run ${chalk.cyan(`npm i ${notifier.update.name} -g`)} to update.`,
+      `For more information follow our CHANGELOG\n${chalk.cyan(
+        CLI_CONFIG.DOCUMENTATION_URL
+      )}`
+    );
+    return;
+  }
+
+  if (notifier.update === undefined && isCheckMode) {
+    getBox(
+      chalk.green("🎉 Awesome, you have the latest version"),
+      `Current version ${chalk.green(CLI_CONFIG.NAME)}@${chalk.green(
+        CLI_CONFIG.VERSION
+      )}`
+    );
   }
 };
 
 const welcome = () => {
   console.clear();
   console.log(
-    chalk.green(
-      figlet.textSync("gitool", {
+    `\n${chalk.green(
+      figlet.textSync(CLI_CONFIG.FRIENDLY_NAME, {
         horizontalLayout: "full",
         width: 60,
         font: "DOS Rebel",
         whitespaceBreak: true,
       })
-    ),
-    chalk.blueBright(`\n\nCLI tool, made with ${emoji.emojify(":heart:")}`),
-    chalk.blue(`\nVersion: ${pkg.version} \n`)
+    )}`,
+    chalk.blueBright(`\nCLI tool, made with ${emoji.emojify(":heart:")}`),
+    chalk.blue(`\nVersion: ${chalk.green(CLI_CONFIG.VERSION)}\n`)
   );
 };
 
 const stats = async () => {
   const response = await fetch(
-    `https://api.npmjs.org/downloads/point/last-month/${pkg.name}`
+    `https://api.npmjs.org/downloads/point/last-month/${CLI_CONFIG.NAME}`
   );
 
   const data: { downloads: number } = (await response.json()) as {
@@ -58,9 +85,9 @@ const stats = async () => {
 
 try {
   program
-    .name(BIN_NAME)
+    .name(CLI_CONFIG.BIN_NAME)
     .description("CLI to manage git actions easily")
-    .version(pkg.version);
+    .version(CLI_CONFIG.VERSION);
 
   program
     .command("check")
@@ -81,8 +108,8 @@ try {
     .description("Wizard to create a conventional commit")
     .option("-pm, --preview-mode", "Preview the final structure of the message")
     .action((options: OptionValues) => {
-      checkPackageVersion();
       welcome();
+      checkPackageVersion(false);
       conventionalCommit(options);
     });
 

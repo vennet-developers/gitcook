@@ -1,7 +1,7 @@
 import type {
   IFormatterFunction,
   IGenericObject,
-} from "../conventional/types/conventional.types.js";
+} from "../types/common.types.js";
 
 export const mapToInquirerListAsObject = (
   fullObject: IGenericObject,

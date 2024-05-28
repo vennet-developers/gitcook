@@ -3,13 +3,13 @@ import inquirer from "inquirer";
 import {
   makePrompt,
   mapToInquirerListAsObject,
-} from "../../commons/inquirerMakePrompt.js";
+} from "../../../core/utils/inquirerMakePrompt.js";
 import { GITEMOJIS, SUGGESTION_EMOJI_TYPES } from "../consts/gitmoji.js";
 import type {
   IGenericChoices,
   IGenericObject,
   IInquirerAnswers,
-} from "../types/conventional.types.js";
+} from "../../../core/types/common.types.js";
 
 const gitmojiFormatter = (
   key: string,

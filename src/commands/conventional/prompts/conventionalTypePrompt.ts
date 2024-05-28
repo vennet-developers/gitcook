@@ -3,12 +3,12 @@ import inquirer from "inquirer";
 import {
   makePrompt,
   mapToInquirerListAsObject,
-} from "../../commons/inquirerMakePrompt.js";
+} from "../../../core/utils/inquirerMakePrompt.js";
 import type {
   IGenericChoices,
   IGenericObject,
   IInquirerAnswers,
-} from "../types/conventional.types.js";
+} from "../../../core/types/common.types.js";
 import { CONVENTIONAL_TYPES } from "../consts/gitmoji.js";
 
 const conventionalTypesFormatter = (

@@ -14,6 +14,9 @@ importers:
       chalk:
         specifier: ^5.3.0
         version: 5.3.0
+      cli-box:
+        specifier: ^6.0.10
+        version: 6.0.10
       commander:
         specifier: ^12.0.0
         version: 12.0.0
@@ -39,6 +42,9 @@ importers:
       '@changesets/cli':
         specifier: ^2.27.1
         version: 2.27.1
+      '@types/cli-box':
+        specifier: ^6.0.4
+        version: 6.0.4
       '@types/figlet':
         specifier: ^1.5.8
         version: 1.5.8
@@ -231,6 +237,9 @@ packages:
     resolution: {integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==}
     engines: {node: '>=14.16'}
 
+  '@types/cli-box@6.0.4':
+    resolution: {integrity: sha512-71aNN24cdcsi5K86f7CIFABz2bxE+lGLQXdrVLYxKSWUYLv0krcCXKDgSKt+mJHcWRUgl4E5ZoJYmTdrSvuP6Q==}
+
   '@types/configstore@6.0.2':
     resolution: {integrity: sha512-OS//b51j9uyR3zvwD04Kfs5kHpve2qalQ18JhY/ho3voGYUTPLEG90/ocfKPI48hyHH8T04f7KEEbK6Ue60oZQ==}
 
@@ -278,6 +287,9 @@ packages:
   ansi-escapes@4.3.2:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}
     engines: {node: '>=8'}
+
+  ansi-parser@3.2.10:
+    resolution: {integrity: sha512-CGKGIbd678lm15IXJXI1cTyOVAnMQw0jES+klW/yIc+GzYccsYanLMhczPIIj2hE64B79g75QfiuWrEWd6nJdg==}
 
   ansi-regex@3.0.1:
     resolution: {integrity: sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw==}
@@ -404,6 +416,9 @@ packages:
     resolution: {integrity: sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==}
     engines: {node: '>=8'}
 
+  cli-box@6.0.10:
+    resolution: {integrity: sha512-6jjSF6G1gOXaCyBQJKo3L3lZKxP8jzdECG7FBiA4m2w7K8jBxXXwsMb75fBLwoVwOtKwvgKjLJurw8HU5XNciw==}
+
   cli-boxes@3.0.0:
     resolution: {integrity: sha512-/lzGpEWL/8PfI0BmBOPRwp0c/wFNX1RdUML3jK/RcSBA9T8mZDdQpqYBKtCFTOfQbwPqWEOpjqW+Fnayc0969g==}
     engines: {node: '>=10'}
@@ -516,6 +531,9 @@ packages:
   defer-to-connect@2.0.1:
     resolution: {integrity: sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==}
     engines: {node: '>=10'}
+
+  deffy@2.2.4:
+    resolution: {integrity: sha512-pLc9lsbsWjr6RxmJ2OLyvm+9l4j1yK69h+TML/gUit/t3vTijpkNGh8LioaJYTGO7F25m6HZndADcUOo2PsiUg==}
 
   define-data-property@1.1.4:
     resolution: {integrity: sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==}
@@ -659,6 +677,9 @@ packages:
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
+
+  function.name@1.0.13:
+    resolution: {integrity: sha512-mVrqdoy5npWZyoXl4DxCeuVF6delDcQjVS9aPdvLYlBxtMTZDR2B5GVEQEoM1jJyspCqg3C0v4ABkLE7tp9xFA==}
 
   function.prototype.name@1.1.6:
     resolution: {integrity: sha512-Z5kx79swU5P27WEayXM1tBi5Ze/lbIyiNgU3qyXUOf9b2rgXYyF9Dy9Cx+IQv/Lc8WCG6L82zwUPpSS9hGehIg==}
@@ -928,12 +949,18 @@ packages:
   is-typedarray@1.0.0:
     resolution: {integrity: sha512-cyA56iCMHAh5CdzjJIa4aohJyeO1YbwLi3Jc35MmRU6poroFjIGZzUzupGiRPOjgHg9TLu43xbpwXk523fMxKA==}
 
+  is-undefined@1.0.11:
+    resolution: {integrity: sha512-gRwyH8IRpV73MDlVefPllIjxBjrP9YAB0YCLtxnROhRkedTSzzBJgfxTC6HgP2/dttawQHWNZe88MvXS9Hbn/g==}
+
   is-unicode-supported@0.1.0:
     resolution: {integrity: sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==}
     engines: {node: '>=10'}
 
   is-weakref@1.0.2:
     resolution: {integrity: sha512-qctsuLZmIQ0+vSSMfoVvyFe2+GSEvnmZ2ezTup1SBse9+twCCeial6EEi3Nc2KFcf6+qz2FBPnjXsk8xhKSaPQ==}
+
+  is-win@1.0.10:
+    resolution: {integrity: sha512-tJ9PPj5RW2RUaZ2lAIVRqQjMSynA44Ln89h+Ue+pOecoWIv6dLHvN6dtLxeCi/h5epPJPSVyuaNObLAMq62OEA==}
 
   is-windows@1.0.2:
     resolution: {integrity: sha512-eXK1UInq2bPmjyX6e3VHIzMLobc4J94i4AWn+Hpq3OU5KkrRC96OAcR3PRJ/pGu6m8TRnBHP9dkXQVsT/COVIA==}
@@ -1069,6 +1096,9 @@ packages:
   node-emoji@2.1.3:
     resolution: {integrity: sha512-E2WEOVsgs7O16zsURJ/eH8BqhF029wGpEOnv7Urwdo2wmQanOACwJQh0devF9D9RhoZru0+9JXIS0dBXIAz+lA==}
     engines: {node: '>=18'}
+
+  noop6@1.0.9:
+    resolution: {integrity: sha512-DB3Hwyd89dPr5HqEPg3YHjzvwh/mCqizC1zZ8vyofqc+TQRyPDnT4wgXXbLGF4z9YAzwwTLi8pNLhGqcbSjgkA==}
 
   normalize-package-data@2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
@@ -1524,6 +1554,12 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typpy@2.3.13:
+    resolution: {integrity: sha512-vOxIcQz9sxHi+rT09SJ5aDgVgrPppQjwnnayTrMye1ODaU8gIZTDM19t9TxmEElbMihx2Nq/0/b/MtyKfayRqA==}
+
+  ul@5.2.15:
+    resolution: {integrity: sha512-svLEUy8xSCip5IWnsRa0UOg+2zP0Wsj4qlbjTmX6GJSmvKMHADBuHOm1dpNkWqWPIGuVSqzUkV3Cris5JrlTRQ==}
+
   unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
 
@@ -1890,6 +1926,8 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
+  '@types/cli-box@6.0.4': {}
+
   '@types/configstore@6.0.2': {}
 
   '@types/figlet@1.5.8': {}
@@ -1933,6 +1971,8 @@ snapshots:
   ansi-escapes@4.3.2:
     dependencies:
       type-fest: 0.21.3
+
+  ansi-parser@3.2.10: {}
 
   ansi-regex@3.0.1: {}
 
@@ -2072,6 +2112,14 @@ snapshots:
 
   ci-info@3.9.0: {}
 
+  cli-box@6.0.10:
+    dependencies:
+      ansi-parser: 3.2.10
+      deffy: 2.2.4
+      is-undefined: 1.0.11
+      is-win: 1.0.10
+      ul: 5.2.15
+
   cli-boxes@3.0.0: {}
 
   cli-cursor@2.1.0:
@@ -2188,6 +2236,10 @@ snapshots:
       clone: 1.0.4
 
   defer-to-connect@2.0.1: {}
+
+  deffy@2.2.4:
+    dependencies:
+      typpy: 2.3.13
 
   define-data-property@1.1.4:
     dependencies:
@@ -2381,6 +2433,10 @@ snapshots:
       universalify: 0.1.2
 
   function-bind@1.1.2: {}
+
+  function.name@1.0.13:
+    dependencies:
+      noop6: 1.0.9
 
   function.prototype.name@1.1.6:
     dependencies:
@@ -2649,11 +2705,15 @@ snapshots:
 
   is-typedarray@1.0.0: {}
 
+  is-undefined@1.0.11: {}
+
   is-unicode-supported@0.1.0: {}
 
   is-weakref@1.0.2:
     dependencies:
       call-bind: 1.0.7
+
+  is-win@1.0.10: {}
 
   is-windows@1.0.2: {}
 
@@ -2776,6 +2836,8 @@ snapshots:
       char-regex: 1.0.2
       emojilib: 2.4.0
       skin-tone: 2.0.0
+
+  noop6@1.0.9: {}
 
   normalize-package-data@2.5.0:
     dependencies:
@@ -3248,6 +3310,15 @@ snapshots:
       is-typedarray: 1.0.0
 
   typescript@5.4.5: {}
+
+  typpy@2.3.13:
+    dependencies:
+      function.name: 1.0.13
+
+  ul@5.2.15:
+    dependencies:
+      deffy: 2.2.4
+      typpy: 2.3.13
 
   unbox-primitive@1.0.2:
     dependencies:

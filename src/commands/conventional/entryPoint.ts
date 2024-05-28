@@ -6,7 +6,10 @@ import searchList from "@elfiner/inquirer-search-list";
 import InterruptedPrompt from "inquirer-interrupted-prompt";
 
 import { GITEMOJIS } from "./consts/gitmoji.js";
-import type { chainFn, IInquirerAnswers } from "./types/conventional.types.js";
+import type {
+  chainFn,
+  IInquirerAnswers,
+} from "../../core/types/common.types.js";
 import { GIT_INTENTIONS } from "./consts/gitIntentions.js";
 import { removeLineBreaks, stringFormat } from "../../core/utils/strings.js";
 import { conventionalTypePrompt } from "./prompts/conventionalTypePrompt.js";

@@ -1,6 +1,6 @@
 import GITEMOJIS from "./gitemoji.json" assert { type: "json" };
 import CONVENTIONAL_TYPES from "./conventional-types.json" assert { type: "json" };
-import type { IGenericKeyString } from "../types/conventional.types.js";
+import type { IGenericKeyString } from "../../../core/types/common.types.js";
 
 const SUGGESTION_EMOJI_TYPES: IGenericKeyString = {
   [CONVENTIONAL_TYPES.build.value]: GITEMOJIS[":construction:"].name,

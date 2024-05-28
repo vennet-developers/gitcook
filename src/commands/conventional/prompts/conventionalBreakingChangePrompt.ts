@@ -1,7 +1,7 @@
 import InterruptedPrompt from "inquirer-interrupted-prompt";
 import inquirer from "inquirer";
-import { makePrompt } from "../../commons/inquirerMakePrompt.js";
-import type { IInquirerAnswers } from "../types/conventional.types.js";
+import { makePrompt } from "../../../core/utils/inquirerMakePrompt.js";
+import type { IInquirerAnswers } from "../../../core/types/common.types.js";
 
 export const conventionalBreakingChangePrompt = async (
   prevAnswers: IInquirerAnswers
