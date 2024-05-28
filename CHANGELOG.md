@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.4.5
+
+### Patch Changes
+
+- Change emojis in the consts and prompt functionality
+
 ## 0.4.4
 
 ### Patch Changes
