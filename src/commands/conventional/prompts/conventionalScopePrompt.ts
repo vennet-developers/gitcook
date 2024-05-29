@@ -2,6 +2,7 @@ import inquirer from "inquirer";
 import { makePrompt } from "../../../core/utils/inquirerMakePrompt.js";
 import type { IInquirerAnswers } from "../../../core/types/common.types.js";
 import InterruptedPrompt from "inquirer-interrupted-prompt";
+import chalk from "chalk";
 
 export const conventionalScopePrompt = async (
   prevAnswers: IInquirerAnswers
@@ -10,8 +11,9 @@ export const conventionalScopePrompt = async (
     required: false,
     name: "conventional-scope",
     type: "input",
-    message:
-      "Enter the scope that describes the section of code you touched [optional]: ",
+    message: `Commit Scope ${chalk.blueBright(
+      "[Enter the scope that describes the section of code you touched]"
+    )} ${chalk.green("(optional)")}: `,
     default: undefined,
     interruptedKeyName: "q",
   });

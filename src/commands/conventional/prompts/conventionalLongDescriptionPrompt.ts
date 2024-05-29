@@ -2,6 +2,7 @@ import inquirer from "inquirer";
 import InterruptedPrompt from "inquirer-interrupted-prompt";
 import { makePrompt } from "../../../core/utils/inquirerMakePrompt.js";
 import type { IInquirerAnswers } from "../../../core/types/common.types.js";
+import chalk from "chalk";
 
 export const conventionalLongDescriptionPrompt = async (
   prevAnswers: IInquirerAnswers
@@ -10,7 +11,9 @@ export const conventionalLongDescriptionPrompt = async (
     required: false,
     name: "conventional-long-description",
     type: "editor",
-    message: "Enter a long description [optional]: ",
+    message: `Commit body ${chalk.blueBright(
+      "[Enter a long description]"
+    )} ${chalk.green("(optional)")}: `,
     default: undefined,
     interruptedKeyName: "q",
   });

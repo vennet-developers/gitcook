@@ -1,38 +1,41 @@
-<h1 align="center">Vennet ⚡️ Gitool</h1>
+<h1 align="center">Vennet ⚡️ Git Cook</h1>
 
 <br />
 
-Git cli tools is a powerfull tool for standarize the commits and changelogs for your teams.
+Cli tools is a powerfull tool for standarize the commits and changelogs for your teams.
 
 ## Table of contents
 
 - 📋 [Documentation](#documentation)
-- 🚀 [Features](#features)
 - 📦 [Installation](#installation)
 - 💻 [Usage](#usage)
 - 📚 [CodeSandbox Templates](#codesandbox-templates)
 - 📝 [Contributing](#contributing)
 - 💖 [Support](#support-chakra-ui)
-- 🙌 [Testimonials](#testimonials)
-- 🏆 [Awards and Mentions](#awards-and-mentions)
 - ✨ [Contributors](#contributors)
 - ⚖️ [License](#license)
 
+## Documentation
+
+In progress...
+
+## Documentation
+
 ## Installation
 
-To use CCLI, all you need to do is install the
-`@vennet/ccli` package:
+To use Git Cook, all you need to do is install the
+`@vennet/gitcook` package:
 
 ```sh
 # with yarn
-$ yarn add @vennet/gitool -g
+$ yarn add @vennet/gitcook -g
 
 # with npm
-$ npm i @vennet/gitool -g
+$ npm i @vennet/gitcook -g
 
 # with pnpm
-$ pnpm add @vennet/gitool -g
+$ pnpm add @vennet/gitcook -g
 
 # with bun
-$ bun add @vennet/gitool -g
+$ bun add @vennet/gitcook -g
 ```

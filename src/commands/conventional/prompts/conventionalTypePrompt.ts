@@ -9,7 +9,8 @@ import type {
   IGenericObject,
   IInquirerAnswers,
 } from "../../../core/types/common.types.js";
-import { CONVENTIONAL_TYPES } from "../consts/gitmoji.js";
+import CONVENTIONAL_TYPES from "../consts/conventional-types.json" assert { type: "json" };
+import chalk from "chalk";
 
 const conventionalTypesFormatter = (
   key: string,
@@ -17,7 +18,6 @@ const conventionalTypesFormatter = (
 ): IGenericChoices => ({
   name: `${fullObject[key]?.name} [${fullObject[key]?.description}]`,
   value: fullObject[key]?.value,
-  key: fullObject[key]?.value,
 });
 
 export const conventionalTypePrompt = async (prevAnswers: IInquirerAnswers) => {
@@ -25,12 +25,17 @@ export const conventionalTypePrompt = async (prevAnswers: IInquirerAnswers) => {
     required: true,
     name: "conventional-type",
     type: "search-list",
-    message: "Select the type that corresponds to the nature of your commit: ",
+    message: `Commit Type ${chalk.blueBright(
+      "[Select the type that corresponds to the nature of your commit]"
+    )}: `,
     choices: mapToInquirerListAsObject(
       CONVENTIONAL_TYPES,
       conventionalTypesFormatter
     ),
-    default: CONVENTIONAL_TYPES.feat.value,
+    default: conventionalTypesFormatter(
+      CONVENTIONAL_TYPES.feat.value,
+      CONVENTIONAL_TYPES
+    ).name,
     validate: (value: string) => {
       if (
         value.length &&
