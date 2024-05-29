@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.5.0
+
+### Minor Changes
+
+- BREAKING CHANGE: New name and new command
+
 ## 0.4.5
 
 ### Patch Changes
