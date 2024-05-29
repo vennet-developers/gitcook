@@ -8,7 +8,8 @@
     "cli",
     "git",
     "conventional-commits",
-    "nodejs"
+    "nodejs",
+    "tool"
   ],
   "author": "Ivan Avila <ivelaval@gmail.com> (http://ivandev.com/)",
   "license": "ISC",
