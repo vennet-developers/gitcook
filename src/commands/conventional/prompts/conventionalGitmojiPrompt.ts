@@ -10,6 +10,7 @@ import type {
   IGenericObject,
   IInquirerAnswers,
 } from "../../../core/types/common.types.js";
+import chalk from "chalk";
 
 const gitmojiFormatter = (
   key: string,
@@ -35,7 +36,9 @@ export const conventionalGitmojiPrompt = async (
     required: true,
     name: "conventional-gitmoji",
     type: "search-list",
-    message: "Select the emoji that reference to your commit: ",
+    message: `Commit emoji ${chalk.blueBright(
+      "[Select the emoji that reference to your commit]"
+    )}: `,
     choices: mapToInquirerListAsObject(GITEMOJIS, gitmojiFormatter),
     default: getEmojiByConventionalType(prevAnswers["conventional-type"] ?? ""),
   });

@@ -2,6 +2,7 @@ import inquirer from "inquirer";
 import InterruptedPrompt from "inquirer-interrupted-prompt";
 import { makePrompt } from "../../../core/utils/inquirerMakePrompt.js";
 import type { IInquirerAnswers } from "../../../core/types/common.types.js";
+import chalk from "chalk";
 
 export const conventionalFooterPrompt = async (
   prevAnswers: IInquirerAnswers
@@ -10,7 +11,9 @@ export const conventionalFooterPrompt = async (
     required: false,
     name: "conventional-footer",
     type: "editor",
-    message: "Enter a footer description [optional]: ",
+    message: `Commit footer ${chalk.blueBright(
+      "[Enter a footer description]"
+    )} ${chalk.green("(optional)")}: `,
     default: undefined,
     interruptedKeyName: "q",
   });

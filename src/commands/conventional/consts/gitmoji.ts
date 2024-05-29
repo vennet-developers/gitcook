@@ -1,4 +1,4 @@
-import GITEMOJIS from "./gitemoji.json" assert { type: "json" };
+import GITEMOJIS from "./gitmoji.json" assert { type: "json" };
 import CONVENTIONAL_TYPES from "./conventional-types.json" assert { type: "json" };
 import type { IGenericKeyString } from "../../../core/types/common.types.js";
 
@@ -16,4 +16,4 @@ const SUGGESTION_EMOJI_TYPES: IGenericKeyString = {
   [CONVENTIONAL_TYPES.test.value]: GITEMOJIS[":test_tube:"].name,
 };
 
-export { SUGGESTION_EMOJI_TYPES, GITEMOJIS, CONVENTIONAL_TYPES };
+export { SUGGESTION_EMOJI_TYPES, GITEMOJIS };
