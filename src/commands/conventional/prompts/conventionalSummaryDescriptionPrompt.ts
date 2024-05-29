@@ -2,6 +2,7 @@ import inquirer from "inquirer";
 import InterruptedPrompt from "inquirer-interrupted-prompt";
 import { makePrompt } from "../../../core/utils/inquirerMakePrompt.js";
 import type { IInquirerAnswers } from "../../../core/types/common.types.js";
+import chalk from "chalk";
 
 export const conventionalSummaryDescriptionPrompt = async (
   prevAnswers: IInquirerAnswers
@@ -10,7 +11,9 @@ export const conventionalSummaryDescriptionPrompt = async (
     required: true,
     name: "conventional-summary-description",
     type: "input",
-    message: "Enter a summary description: ",
+    message: `Commit description ${chalk.blueBright(
+      "[Enter a summary description]"
+    )}: `,
     default: undefined,
   });
 

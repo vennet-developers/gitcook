@@ -21,6 +21,9 @@ import { conventionalLongDescriptionPrompt } from "./prompts/conventionalLongDes
 import { conventionalFooterPrompt } from "./prompts/conventionalFooterPrompt.js";
 import { GIT_COMMANDS } from "./consts/gitCommands.js";
 
+InterruptedPrompt.fromAll(inquirer);
+inquirer.registerPrompt("search-list", searchList);
+
 const manager = {
   state: {},
   initState: function (optionsAsParams: IInquirerAnswers = {}) {
@@ -94,9 +97,6 @@ const isThereChanges = (): boolean => {
 
 export const conventionalCommit = async (commandOptions: OptionValues) => {
   if (isThereChanges()) {
-    InterruptedPrompt.fromAll(inquirer);
-    inquirer.registerPrompt("search-list", searchList);
-
     const answers: IInquirerAnswers = await manager
       .initState({})
       .pipe(

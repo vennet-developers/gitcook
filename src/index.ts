@@ -63,7 +63,7 @@ const welcome = () => {
       figlet.textSync(CLI_CONFIG.FRIENDLY_NAME, {
         horizontalLayout: "full",
         width: 60,
-        font: "DOS Rebel",
+        font: "Elite",
         whitespaceBreak: true,
       })
     )}`,
