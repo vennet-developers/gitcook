@@ -21,9 +21,6 @@ import { conventionalLongDescriptionPrompt } from "./prompts/conventionalLongDes
 import { conventionalFooterPrompt } from "./prompts/conventionalFooterPrompt.js";
 import { GIT_COMMANDS } from "./consts/gitCommands.js";
 
-InterruptedPrompt.fromAll(inquirer);
-inquirer.registerPrompt("search-list", searchList);
-
 const manager = {
   state: {},
   initState: function (optionsAsParams: IInquirerAnswers = {}) {
@@ -76,13 +73,14 @@ const prepareConventionalCommit = (answers: IInquirerAnswers) => {
   );
 };
 
-const isThereChanges = (): boolean => {
+const isThereUncommittedChanges = (): boolean => {
   try {
     const changes = execSync(GIT_COMMANDS.STATUS).toString();
 
     if (
       changes.search(GIT_INTENTIONS.NO_STAGED) !== -1 ||
-      changes.search(GIT_INTENTIONS.UNTRACKED) !== -1
+      changes.search(GIT_INTENTIONS.UNTRACKED) !== -1 ||
+      changes.search(GIT_INTENTIONS.STAGED) !== -1
     ) {
       return true;
     }
@@ -90,13 +88,16 @@ const isThereChanges = (): boolean => {
     console.log(chalk.green("Impeccable ✨, you have no changes to manage"));
     return false;
   } catch (e) {
-    console.log(chalk.red("🚫 Ups, there is no git repository at this path"));
+    console.log(chalk.red("Wait 🚫, there is no git repository at this path"));
     return false;
   }
 };
 
 export const conventionalCommit = async (commandOptions: OptionValues) => {
-  if (isThereChanges()) {
+  if (isThereUncommittedChanges()) {
+    InterruptedPrompt.fromAll(inquirer);
+    inquirer.registerPrompt("search-list", searchList);
+
     const answers: IInquirerAnswers = await manager
       .initState({})
       .pipe(
