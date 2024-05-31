@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.5.1
+
+### Patch Changes
+
+- Update README file for the users
+
 ## 0.5.0
 
 ### Minor Changes
