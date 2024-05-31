@@ -1,3 +1,4 @@
+<br>
 <p align="center">
   <a href="https://vennet.dev/projects/gitcook">
     <img src="https://cdn.vennet.dev/gitcook/logo.png" width="300px" height="92px" alt="Vennet | Git Cook"/>
@@ -27,9 +28,13 @@ $ pnpm add @vennet/gitcook -g
 $ bun add @vennet/gitcook -g
 ```
 
+<br>
+
 ## Usage
 
-The command base for execute the tool is `gtook` with the following base and specific commands availables.
+The command base for execute the tool is `gcook` with the following base and specific commands availables.
+
+<br>
 
 ### Base Commands
 
@@ -65,6 +70,8 @@ gcook init [options]  Wizard to create a conventional commit
 | ---------------------- | ------------------------------------------------------------------------- | -------------------------------------------- |
 | `-pm` `--preview-mode` | Generate the final commit message without execute git commands internally | `gcook init -pm` `gcook init --preview-mode` |
 
+<br>
+
 ### Output example from help command
 
 ```sh
@@ -85,4 +92,8 @@ Commands:
   help [command]  display help for command
 ```
 
-## [License](https://github.com/vennet-developers/gitcook/blob/main/LICENSE)
+<br>
+
+## License
+
+[Vennet @ MIT](https://github.com/vennet-developers/gitcook/blob/main/LICENSE)
