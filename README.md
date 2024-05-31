@@ -5,16 +5,11 @@
   </a>
 </p>
 
+<h1 align="center">✨ CLI tool for everybody ✨</h1>
+
+<br>
+
 Cli tools is a powerfull tool for standarize the commits and changelogs for your teams.
-
-<br />
-
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <br />
 
