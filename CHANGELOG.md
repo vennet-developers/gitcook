@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.5.2
+
+### Patch Changes
+
+- Update gitcook documentation
+
 ## 0.5.1
 
 ### Patch Changes
