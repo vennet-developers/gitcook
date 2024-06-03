@@ -8,18 +8,23 @@ jobs:
       matrix:
         node-version: ["20.x"]
     env:
-      lib_version: git describe --tags --abbrev=0
+      lib_version: dfsf
       npm_token: ${{ secrets.NPM_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20.x"
           registry-url: https://registry.npmjs.org/
-
+      - name: Get latest tag pushed
+        id: tag
+        uses: 32teeth/action-github-tag@v1
+        with:
+          numbers_only: true
       - run: npm i
       - run: npm run build --if-present
-      - run: echo "Generating ${{ env.lib_version }}"
+      - run: echo "Publishing ${{ steps.tag.outputs.tag }} version"
         #- run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{env.npm_token}}
