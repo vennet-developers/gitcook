@@ -1,5 +1,17 @@
 # @vennet/ccli
 
+## 0.5.4
+
+### Patch Changes
+
+- Update publish command in the CI
+
+## 0.5.3
+
+### Patch Changes
+
+- Add github actions to publish new npm packages
+
 ## 0.5.2
 
 ### Patch Changes
