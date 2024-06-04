@@ -10,7 +10,7 @@
 
 ### Patch Changes
 
-- Add github actions to publish new npm packages
+- Generate missing package-lock.json in CI
 
 ## 0.5.2
 

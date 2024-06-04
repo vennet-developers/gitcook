@@ -26,7 +26,6 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
       - run: npm run build --if-present
-      #- run: npm publish --provenance --access public
       - run: npm run pkg:publish
         env:
           NODE_AUTH_TOKEN: ${{env.npm_token}}
