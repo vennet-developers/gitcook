@@ -1,6 +1,6 @@
 {
   "name": "@vennet/gitcook",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "CLI tool for git actions",
   "type": "module",
   "main": "./dist/index.js",
@@ -26,6 +26,7 @@
   "scripts": {
     "dev": "rm -rf dist && tsc -w",
     "build": "rm -rf dist && tsc",
+    "test": "echo 'Pending to implement'",
     "lint": "biome lint --apply src/*",
     "lint:check": "biome check --apply src/*",
     "format": "biome format --write src/*",
