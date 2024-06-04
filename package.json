@@ -1,6 +1,6 @@
 {
   "name": "@vennet/gitcook",
-  "version": "0.5.4",
+  "version": "0.5.6",
   "description": "CLI tool for git actions",
   "type": "module",
   "main": "./dist/index.js",
@@ -27,13 +27,13 @@
     "dev": "rm -rf dist && tsc -w",
     "build": "rm -rf dist && tsc",
     "test": "echo 'Pending to implement'",
-    "lint": "biome lint --apply src/*",
-    "lint:check": "biome check --apply src/*",
+    "lint:apply": "biome lint --apply src/*",
+    "lint": "biome check --apply src/*",
     "format": "biome format --write src/*",
     "pkg:link": "(pnpm --global unlink @vennet/gitcook || true) && chmod +x ./dist/index.js && pnpm --global link",
     "pkg:unlink": "pnpm --global unlink @vennet/gitcook",
-    "pkg:version": "changeset && changeset version && git add -A && git commit -am 'New bump version generated'",
-    "pkg:publish": "changeset publish && git push && git push --tags"
+    "pkg:version": "changeset && changeset version && git add -A && git commit -am 'Generate new bump version'",
+    "pkg:release": "changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",

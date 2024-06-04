@@ -1,0 +1,48 @@
+name: Gitcook CI Quality
+run-name: ${{ github.actor }} is checking quality 🚀
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: ./.github/composite-actions/install
+
+      - name: Build packages
+        run: pnpm build
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Run tests
+        run: pnpm test
+
+  lint:
+    name: Biome lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Run Biome Lint
+        run: pnpm lint

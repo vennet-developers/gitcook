@@ -1,5 +1,17 @@
 # @vennet/ccli
 
+## 0.5.6
+
+### Patch Changes
+
+- ci(CI): 👷 Add correct github workflows for quality and release
+
+## 0.5.5
+
+### Patch Changes
+
+- Add new github workflows
+
 ## 0.5.4
 
 ### Patch Changes
