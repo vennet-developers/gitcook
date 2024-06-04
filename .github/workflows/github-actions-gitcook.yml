@@ -37,7 +37,7 @@ jobs:
         uses: changesets/action@v1
         with:
           # this expects you to have a npm script called version that runs some logic and then calls `changeset version`.
-          version: npm run version
+          version: npm run pkg:version
         env:
           GITHUB_TOKEN: ${{ env.github_token }}
           NODE_AUTH_TOKEN: ${{ env.npm_token }}
