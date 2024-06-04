@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.5.5
+
+### Patch Changes
+
+- Add new github workflows
+
 ## 0.5.4
 
 ### Patch Changes
