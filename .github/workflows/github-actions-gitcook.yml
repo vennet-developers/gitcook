@@ -1,6 +1,12 @@
 name: Gitcook CI
 run-name: ${{ github.actor }} is generating new version 🚀
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types:
+      - closed
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -13,18 +19,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Use node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          registry-url: https://registry.npmjs.org/
-      - name: Get latest tag pushed
-        id: tag
-        uses: 32teeth/action-github-tag@v1
-        with:
-          numbers_only: true
-      - run: npm i
+          node-version: ${{ matrix.node-version }}
+          registry-url: "https://registry.npmjs.org"
+      - run: npm ci
       - run: npm run build --if-present
-      - run: echo "Publishing ${{ steps.tag.outputs.tag }} version"
-        #- run: npm publish
+      - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{env.npm_token}}

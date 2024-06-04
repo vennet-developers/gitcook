@@ -2,7 +2,7 @@
   "build": {
     "name": "Build",
     "value": "build",
-    "description": "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)"
+    "description": "Changes that affect the build system or external dependencies (example scopes: typescript, jest, npm)"
   },
   "chore": {
     "name": "Chore",
@@ -12,7 +12,7 @@
   "ci": {
     "name": "CI",
     "value": "ci",
-    "description": "Changes to CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)"
+    "description": "Changes to CI configuration files and scripts (example scopes: Github actions, Cypress, Npm scripts, etc)"
   },
   "docs": {
     "name": "Docs",
