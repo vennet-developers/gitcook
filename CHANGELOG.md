@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.5.3
+
+### Patch Changes
+
+- Generate missing package-lock.json in CI
+
 ## 0.5.2
 
 ### Patch Changes
