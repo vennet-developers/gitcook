@@ -107,6 +107,7 @@ try {
     .command("init")
     .description("Wizard to create a conventional commit")
     .option("-pm, --preview-mode", "Preview the final structure of the message")
+    .option("-cm, --compact-mode", "Create a simple conventional commit")
     .action((options: OptionValues) => {
       welcome();
       checkPackageVersion(false);

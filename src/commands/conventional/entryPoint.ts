@@ -98,17 +98,22 @@ export const conventionalCommit = async (commandOptions: OptionValues) => {
     InterruptedPrompt.fromAll(inquirer);
     inquirer.registerPrompt("search-list", searchList);
 
+    const prompts: chainFn[] = [
+      conventionalTypePrompt,
+      conventionalBreakingChangePrompt,
+      conventionalScopePrompt,
+      conventionalGitmojiPrompt,
+      conventionalSummaryDescriptionPrompt,
+    ]
+
+    if (!commandOptions.compactMode) {
+      prompts.push(conventionalLongDescriptionPrompt);
+      prompts.push(conventionalFooterPrompt);
+    }
+
     const answers: IInquirerAnswers = await manager
       .initState({})
-      .pipe(
-        conventionalTypePrompt,
-        conventionalBreakingChangePrompt,
-        conventionalScopePrompt,
-        conventionalGitmojiPrompt,
-        conventionalSummaryDescriptionPrompt,
-        conventionalLongDescriptionPrompt,
-        conventionalFooterPrompt
-      );
+      .pipe(...prompts);
 
     const conventionalCommit = prepareConventionalCommit(answers);
 
