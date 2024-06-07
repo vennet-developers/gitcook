@@ -1,5 +1,18 @@
 # @vennet/ccli
 
+## 0.6.0
+
+### Minor Changes
+
+- Add compact mode
+- feat(core): ✨ Add compact mode
+
+## 0.5.9
+
+### Patch Changes
+
+- b6fadf2: ci(workflow): 👷 Add New token in workflow
+
 ## 0.5.8
 
 ### Patch Changes
