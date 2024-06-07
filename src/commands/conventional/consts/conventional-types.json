@@ -12,7 +12,7 @@
   "ci": {
     "name": "CI",
     "value": "ci",
-    "description": "Changes to CI configuration files and scripts (example scopes: Github actions, Cypress, Npm scripts, etc)"
+    "description": "Changes to CI configuration files and scripts (example scopes: Github actions, Cypress, Playwright, Npm scripts, etc)"
   },
   "docs": {
     "name": "Docs",
