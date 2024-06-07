@@ -1,5 +1,12 @@
 # @vennet/ccli
 
+## 0.6.1
+
+### Patch Changes
+
+- 1bc3a86: ci(core): 👷 Update changeset script
+- fd45d89: ci(package): 👷 Update changeset script to add
+
 ## 0.6.0
 
 ### Minor Changes

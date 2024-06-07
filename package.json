@@ -1,6 +1,6 @@
 {
   "name": "@vennet/gitcook",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "CLI tool for git actions",
   "type": "module",
   "main": "./dist/index.js",
@@ -33,7 +33,8 @@
     "pkg:status": "changeset status --since=main",
     "pkg:next:enter": "changeset pre enter next",
     "pkg:next:exit": "changeset pre exit next",
-    "pkg:add-version": "changeset add",
+    "pkg:add": "changeset add",
+    "pkg:version": "changeset version",
     "pkg:version:dev": "changeset version --snapshot dev",
     "pkg:release:dev": "changeset publish --tag dev",
     "pkg:release": "changeset publish",
