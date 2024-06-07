@@ -10,9 +10,6 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
   publish:
     runs-on: ubuntu-latest
-    env:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
-      npm_token: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Checkout Repo
@@ -32,5 +29,6 @@ jobs:
           commit: "ci(changesets): version packages"
           setupGitUser: false
         env:
-          GITHUB_TOKEN: ${{ env.github_token }}
-          NODE_AUTH_TOKEN: ${{ env.npm_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.5.8
+
+### Patch Changes
+
+- fb00556: Upgrade actions version
+
 ## 0.5.7
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@vennet/gitcook",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "CLI tool for git actions",
   "type": "module",
   "main": "./dist/index.js",
