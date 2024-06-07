@@ -30,10 +30,16 @@
     "lint:apply": "biome lint --apply src/*",
     "lint": "biome check --apply src/*",
     "format": "biome format --write src/*",
+    "pkg:status": "changeset status --since=main",
+    "pkg:next:enter": "changeset pre enter next",
+    "pkg:next:exit": "changeset pre exit next",
+    "pkg:add": "changeset add",
+    "pkg:version": "changeset version",
+    "pkg:version:dev": "changeset version --snapshot dev",
+    "pkg:release:dev": "changeset publish --tag dev",
+    "pkg:release": "changeset publish",
     "pkg:link": "(pnpm --global unlink @vennet/gitcook || true) && chmod +x ./dist/index.js && pnpm --global link",
-    "pkg:unlink": "pnpm --global unlink @vennet/gitcook",
-    "pkg:version": "changeset && changeset version && git add -A && git commit -am 'Generate new bump version'",
-    "pkg:release": "changeset publish"
+    "pkg:unlink": "pnpm --global unlink @vennet/gitcook"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
