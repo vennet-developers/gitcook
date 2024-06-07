@@ -1,5 +1,11 @@
 # @vennet/ccli
 
+## 0.5.7
+
+### Patch Changes
+
+- f4c47a2: 👷 Add new scripts for releasing
+
 ## 0.5.6
 
 ### Patch Changes
