@@ -1,6 +1,6 @@
 {
   "name": "@vennet/gitcook",
-  "version": "0.6.3",
+  "version": "0.6.2",
   "description": "CLI tool for git actions",
   "type": "module",
   "main": "./dist/index.js",
@@ -30,6 +30,7 @@
     "lint:apply": "biome lint --apply src/*",
     "lint": "biome check --apply src/*",
     "format": "biome format --write src/*",
+    "release": "standard-version",
     "pkg:status": "changeset status --since=main",
     "pkg:next:enter": "changeset pre enter next",
     "pkg:next:exit": "changeset pre exit next",
@@ -49,6 +50,7 @@
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.12.7",
     "@types/update-notifier": "^6.0.8",
+    "standard-version": "^9.5.0",
     "typescript": "^5.4.5"
   },
   "dependencies": {
