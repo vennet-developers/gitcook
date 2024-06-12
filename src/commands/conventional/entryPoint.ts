@@ -1,25 +1,32 @@
-import inquirer from "inquirer";
-import chalk from "chalk";
-import type { OptionValues } from "commander";
 import { execSync } from "node:child_process";
 import searchList from "@elfiner/inquirer-search-list";
+import chalk from "chalk";
+import type { OptionValues } from "commander";
+import inquirer from "inquirer";
 import InterruptedPrompt from "inquirer-interrupted-prompt";
 
-import { GITEMOJIS } from "./consts/gitmoji.js";
 import type {
-  chainFn,
   IInquirerAnswers,
+  chainFn,
 } from "../../core/types/common.types.js";
-import { GIT_INTENTIONS } from "./consts/gitIntentions.js";
 import { removeLineBreaks, stringFormat } from "../../core/utils/strings.js";
-import { conventionalTypePrompt } from "./prompts/conventionalTypePrompt.js";
-import { conventionalBreakingChangePrompt } from "./prompts/conventionalBreakingChangePrompt.js";
-import { conventionalScopePrompt } from "./prompts/conventionalScopePrompt.js";
-import { conventionalGitmojiPrompt } from "./prompts/conventionalGitmojiPrompt.js";
-import { conventionalSummaryDescriptionPrompt } from "./prompts/conventionalSummaryDescriptionPrompt.js";
-import { conventionalLongDescriptionPrompt } from "./prompts/conventionalLongDescriptionPrompt.js";
-import { conventionalFooterPrompt } from "./prompts/conventionalFooterPrompt.js";
 import { GIT_COMMANDS } from "./consts/gitCommands.js";
+import { GIT_INTENTIONS } from "./consts/gitIntentions.js";
+import { GITEMOJIS } from "./consts/gitmoji.js";
+import {
+  breakingChangeID,
+  breakingChangeValueID,
+  conventionalBreakingChangePrompt
+} from "./prompts/conventionalBreakingChangePrompt.js";
+import {conventionalFooterPrompt, footerID} from "./prompts/conventionalFooterPrompt.js";
+import {conventionalGitmojiPrompt, gitmojiID} from "./prompts/conventionalGitmojiPrompt.js";
+import {conventionalLongDescriptionPrompt, longDescriptionID} from "./prompts/conventionalLongDescriptionPrompt.js";
+import {conventionalScopePrompt, scopeID} from "./prompts/conventionalScopePrompt.js";
+import {
+  conventionalSummaryDescriptionPrompt,
+  summaryDescriptionID
+} from "./prompts/conventionalSummaryDescriptionPrompt.js";
+import {conventionalTypePrompt, typeID} from "./prompts/conventionalTypePrompt.js";
 
 const stateManager = {
   state: {},
@@ -27,42 +34,40 @@ const stateManager = {
     this.state = optionsAsParams;
     return this;
   },
-  pipe: function (...fns: chainFn[]) {
+  pipe: async function (...fns: chainFn[]) {
     return fns.reduce(
-      async (prevFun, currentFn) => currentFn(await prevFun),
+      async (prevFun, currentFn) => currentFn(await (prevFun as Promise<IInquirerAnswers>)),
       this.state
     );
   },
 };
 
-const buildCommitHeader = (answers: IInquirerAnswers) => {
-  const gitemoji = answers["conventional-gitmoji"];
-  const conventionalCommit = `${answers["conventional-type"]}${
-    answers["conventional-scope"] ? `(${answers["conventional-scope"]})` : ""
-  }${answers["conventional-breaking-change"] ? "!:" : ":"} ${
+const buildCommitHeader = (answers: IInquirerAnswers): string => {
+  const gitemoji: string | undefined = answers[gitmojiID] as string | undefined;
+  const conventionalCommit: string = `${answers[typeID]}${
+    answers[scopeID] ? `(${answers[scopeID]})` : ""
+  }${answers[breakingChangeID] ? "!:" : ":"} ${
     GITEMOJIS[gitemoji as keyof typeof GITEMOJIS].value
-  } ${answers["conventional-summary-description"]}`;
+  } ${answers[summaryDescriptionID]}`;
 
   return `${conventionalCommit.trim()}\n\n`;
 };
 
 const buildCommitBody = (answers: IInquirerAnswers) => {
-  const conventionalCommit = `${
-    answers["conventional-breaking-change"] &&
-    answers["conventional-long-description"]
-      ? "BREAKING CHANGE: "
-      : ""
-  }${answers["conventional-long-description"]}`;
-
-  return `${conventionalCommit.trim()}${
-    answers["conventional-long-description"] ? "\n\n" : ""
-  }`;
+  return `${answers[longDescriptionID] ? (answers[longDescriptionID] as string).trim() : ""} \n\n`;
 };
 
 const buildCommitFooter = (answers: IInquirerAnswers) => {
-  const conventionalCommit = answers["conventional-footer"]?.trim();
+  const breakingChangeValue: string = `${
+      answers[breakingChangeID] &&
+      answers[breakingChangeValueID]
+          ? `BREAKING CHANGE: ${(answers[breakingChangeValueID] as string).trim()} \n`
+          : ""
+  }`;
 
-  return `${conventionalCommit?.trim()}`;
+  const conventionalFooter: string | undefined = (answers[footerID] as string).trim();
+
+  return `${breakingChangeValue}${conventionalFooter?.trim()}`;
 };
 
 const prepareConventionalCommit = (answers: IInquirerAnswers) => {
@@ -75,7 +80,7 @@ const prepareConventionalCommit = (answers: IInquirerAnswers) => {
 
 const isThereUncommittedChanges = (): boolean => {
   try {
-    const changes = execSync(GIT_COMMANDS.STATUS).toString();
+    const changes: string = execSync(GIT_COMMANDS.STATUS).toString();
 
     if (
       changes.search(GIT_INTENTIONS.NO_STAGED) !== -1 ||
@@ -99,18 +104,18 @@ export const conventionalCommit = async (commandOptions: OptionValues) => {
     inquirer.registerPrompt("search-list", searchList);
 
     const answers: IInquirerAnswers = await stateManager
-      .initState({})
-      .pipe(
-        conventionalTypePrompt,
-        conventionalScopePrompt,
-        conventionalGitmojiPrompt,
-        conventionalSummaryDescriptionPrompt,
-        conventionalLongDescriptionPrompt,
-        conventionalFooterPrompt,
-        conventionalBreakingChangePrompt,
-      );
+        .initState({})
+        .pipe(
+            conventionalTypePrompt,
+            conventionalScopePrompt,
+            conventionalGitmojiPrompt,
+            conventionalSummaryDescriptionPrompt,
+            conventionalBreakingChangePrompt,
+            conventionalLongDescriptionPrompt,
+            conventionalFooterPrompt
+        );
 
-    const conventionalCommit = prepareConventionalCommit(answers);
+    const conventionalCommit: string = prepareConventionalCommit(answers);
 
     if (commandOptions.previewMode) {
       console.log(`\n\n${chalk.blueBright(conventionalCommit)}\n\n`);
@@ -118,21 +123,21 @@ export const conventionalCommit = async (commandOptions: OptionValues) => {
     }
 
     try {
-      const name = execSync(GIT_COMMANDS.GET_CONFIG_USERNAME).toString();
-      const congrats = `Congrats ${removeLineBreaks(name).trim()}`;
+      const name: string = execSync(GIT_COMMANDS.GET_CONFIG_USERNAME).toString();
+      const congrats: string = `Congrats ${removeLineBreaks(name).trim()}`;
       console.log(
         chalk.green(
           `\n${congrats.trim()}, You have created a new conventional commit 🎉 \n`
         )
       );
 
-      const command = stringFormat(GIT_COMMANDS.ADD_AND_COMMIT, {
+      const command: string = stringFormat(GIT_COMMANDS.ADD_AND_COMMIT, {
         commit: conventionalCommit,
       });
 
-      const executeCommit = execSync(command).toString();
+      const executeCommit: string = execSync(command).toString();
       console.log(executeCommit);
-      const executePush = execSync(GIT_COMMANDS.PUSH).toString();
+      const executePush: string = execSync(GIT_COMMANDS.PUSH).toString();
       console.log(executePush);
     } catch (error) {
       console.log(error);

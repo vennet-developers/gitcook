@@ -1,15 +1,15 @@
-import inquirer from "inquirer";
+import chalk from "chalk";
 import { makePrompt } from "../../../core/utils/inquirerMakePrompt.js";
 import type { IInquirerAnswers } from "../../../core/types/common.types.js";
-import InterruptedPrompt from "inquirer-interrupted-prompt";
-import chalk from "chalk";
+import {runPrompt} from "../../../core/utils/inquirerRunPrompt.js";
 
+export const scopeID: string = "conventional-scope";
 export const conventionalScopePrompt = async (
   prevAnswers: IInquirerAnswers
 ) => {
-  const conventionalScopePrompt: object = makePrompt({
+  const conventionalScopePrompt: Record<string, unknown> = makePrompt({
     required: false,
-    name: "conventional-scope",
+    name: scopeID,
     type: "input",
     message: `Commit Scope ${chalk.blueBright(
       "[Enter the scope that describes the section of code you touched]"
@@ -18,17 +18,7 @@ export const conventionalScopePrompt = async (
     interruptedKeyName: "q",
   });
 
-  let answers = {};
-  try {
-    answers = await inquirer.prompt(conventionalScopePrompt);
-  } catch (error: unknown) {
-    if (error === InterruptedPrompt.EVENT_INTERRUPTED) {
-      answers = { "conventional-scope": "" };
-      console.log("Prompt has been interrupted!");
-    } else {
-      console.log("Unexpected error was recivied");
-    }
-  }
+  const scopeAnswer: IInquirerAnswers = await runPrompt(conventionalScopePrompt, "");
 
-  return { ...prevAnswers, ...answers };
+  return { ...prevAnswers, ...scopeAnswer };
 };

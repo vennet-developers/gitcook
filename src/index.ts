@@ -2,15 +2,15 @@
 process.removeAllListeners("warning");
 
 import chalk from "chalk";
-import updateNotifier from "update-notifier";
+import Box from "cli-box";
 import { Command, type OptionValues } from "commander";
 import figlet from "figlet";
-import Box from "cli-box";
 import * as emoji from "node-emoji";
+import updateNotifier from "update-notifier";
 import { conventionalCommit } from "./commands/conventional/entryPoint.js";
 import { CLI_CONFIG } from "./core/consts/cli-config.js";
 
-const program = new Command();
+const program: Command = new Command();
 
 const checkPackageVersion = (isCheckMode = true) => {
   const notifier = updateNotifier({
@@ -99,8 +99,8 @@ try {
   program
     .command("stats")
     .description("Check how many downloads has the tool")
-    .action(() => {
-      stats();
+    .action(async () => {
+      await stats();
     });
 
   program
@@ -108,13 +108,13 @@ try {
     .description("Wizard to create a conventional commit")
     .option("-pm, --preview-mode", "Preview the final structure of the message")
     .option("-cm, --compact-mode", "Create a simple conventional commit")
-    .action((options: OptionValues) => {
+    .action(async (options: OptionValues) => {
       welcome();
       checkPackageVersion(false);
-      conventionalCommit(options);
+      await conventionalCommit(options);
     });
 
   program.parse(process.argv);
 } catch (e) {
-  console.log("Inconpatibility error realted to file support");
+  console.log("Incompatibility error related to file support");
 }

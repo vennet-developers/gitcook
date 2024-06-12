@@ -1,29 +1,36 @@
-import InterruptedPrompt from "inquirer-interrupted-prompt";
-import inquirer from "inquirer";
+import chalk from "chalk";
 import { makePrompt } from "../../../core/utils/inquirerMakePrompt.js";
+import { runPrompt } from "../../../core/utils/inquirerRunPrompt.js";
 import type { IInquirerAnswers } from "../../../core/types/common.types.js";
+
+export const breakingChangeID: string = "conventional-breaking-change";
+export const breakingChangeValueID: string = "conventional-breaking-change-value";
 
 export const conventionalBreakingChangePrompt = async (
   prevAnswers: IInquirerAnswers
-) => {
-  const conventionalBreakingChangePrompt: object = makePrompt({
+): Promise<IInquirerAnswers> => {
+  const conventionalBreakingChangePrompt: Record<string, unknown> = makePrompt({
     required: true,
-    name: "conventional-breaking-change",
+    name: breakingChangeID,
     type: "confirm",
     message: "Are you commit a BREAKING CHANGE? ",
     default: false,
   });
 
-  let answers = {};
-  try {
-    answers = await inquirer.prompt(conventionalBreakingChangePrompt);
-  } catch (error: unknown) {
-    if (error === InterruptedPrompt.EVENT_INTERRUPTED) {
-      answers = { "conventional-breaking-change": false };
-      console.log("Prompt has been interrupted!");
-    } else {
-      console.log("Unexpected error was recivied");
-    }
+  const conventionalBreakingChangeValuePrompt: Record<string, unknown> = makePrompt({
+    required: true,
+    name: breakingChangeValueID,
+    type: "input",
+    message: `Describe this BREAKING CHANGE ${chalk.green("(optional)")}: `,
+    default: undefined,
+    interruptedKeyName: "q",
+  });
+
+  const breakingChangeAnswer: IInquirerAnswers = await runPrompt(conventionalBreakingChangePrompt, false);
+  if (breakingChangeAnswer[conventionalBreakingChangePrompt.name as string]) {
+    const breakingChangeValueAnswer: IInquirerAnswers = await runPrompt(conventionalBreakingChangeValuePrompt, "");
+    return { ...prevAnswers, ...breakingChangeAnswer, ...breakingChangeValueAnswer } as IInquirerAnswers;
   }
-  return { ...prevAnswers, ...answers };
+
+  return { ...prevAnswers, ...breakingChangeAnswer } as IInquirerAnswers;
 };

@@ -17,7 +17,7 @@ export const mapToInquirerListAsObject = (
 
 export const makePrompt = (
   options: Record<string, unknown>
-): Record<string, unknown>[] => {
+): Record<string, unknown> => {
   const prompt: Record<string, unknown> = {
     prefix: "🍱 ",
     suffix: "♨︎ ",
@@ -36,5 +36,5 @@ export const makePrompt = (
     delete prompt[key];
   }
 
-  return [prompt];
+  return prompt;
 };
