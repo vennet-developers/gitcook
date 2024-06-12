@@ -1,16 +1,12 @@
-import InterruptedPrompt from "inquirer-interrupted-prompt";
-import inquirer from "inquirer";
-import {
-  makePrompt,
-  mapToInquirerListAsObject,
-} from "../../../core/utils/inquirerMakePrompt.js";
+import chalk from "chalk";
+import { makePrompt, mapToInquirerListAsObject } from "../../../core/utils/inquirerMakePrompt.js";
 import type {
   IGenericChoices,
   IGenericObject,
   IInquirerAnswers,
 } from "../../../core/types/common.types.js";
 import CONVENTIONAL_TYPES from "../consts/conventional-types.json" assert { type: "json" };
-import chalk from "chalk";
+import { runPrompt } from "../../../core/utils/inquirerRunPrompt.js";
 
 const conventionalTypesFormatter = (
   key: string,
@@ -20,10 +16,11 @@ const conventionalTypesFormatter = (
   value: fullObject[key]?.value,
 });
 
+export const typeID: string = "conventional-type";
 export const conventionalTypePrompt = async (prevAnswers: IInquirerAnswers) => {
-  const conventionalTypePrompt: object = makePrompt({
+  const conventionalTypePrompt: Record<string, unknown> = makePrompt({
     required: true,
-    name: "conventional-type",
+    name: typeID,
     type: "search-list",
     message: `Commit Type ${chalk.blueBright(
       "[Select the type that corresponds to the nature of your commit]"
@@ -48,16 +45,7 @@ export const conventionalTypePrompt = async (prevAnswers: IInquirerAnswers) => {
     },
   });
 
-  let answers = {};
-  try {
-    answers = await inquirer.prompt(conventionalTypePrompt);
-  } catch (error: unknown) {
-    if (error === InterruptedPrompt.EVENT_INTERRUPTED) {
-      answers = { "conventional-type": "<empty>" };
-      console.log("Prompt has been interrupted!");
-    } else {
-      console.log("Unexpected error was recivied");
-    }
-  }
-  return { ...prevAnswers, ...answers };
+  const typeAnswer: IInquirerAnswers = await runPrompt(conventionalTypePrompt, "<empty>");
+  
+  return { ...prevAnswers, ...typeAnswer };
 };

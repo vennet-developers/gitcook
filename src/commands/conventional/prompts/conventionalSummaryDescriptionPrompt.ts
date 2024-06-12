@@ -1,15 +1,15 @@
-import inquirer from "inquirer";
-import InterruptedPrompt from "inquirer-interrupted-prompt";
-import { makePrompt } from "../../../core/utils/inquirerMakePrompt.js";
-import type { IInquirerAnswers } from "../../../core/types/common.types.js";
 import chalk from "chalk";
+import { makePrompt } from "../../../core/utils/inquirerMakePrompt.js";
+import {runPrompt} from "../../../core/utils/inquirerRunPrompt.js";
+import type { IInquirerAnswers } from "../../../core/types/common.types.js";
 
+export const summaryDescriptionID: string = "conventional-summary-description";
 export const conventionalSummaryDescriptionPrompt = async (
   prevAnswers: IInquirerAnswers
 ) => {
-  const conventionalSummaryDescriptionPrompt: object = makePrompt({
+  const conventionalSummaryDescriptionPrompt: Record<string, unknown> = makePrompt({
     required: true,
-    name: "conventional-summary-description",
+    name: summaryDescriptionID,
     type: "input",
     message: `Commit description ${chalk.blueBright(
       "[Enter a summary description]"
@@ -17,19 +17,7 @@ export const conventionalSummaryDescriptionPrompt = async (
     default: undefined,
   });
 
-  let answers = {};
-  try {
-    answers = await inquirer.prompt(conventionalSummaryDescriptionPrompt);
-  } catch (error: unknown) {
-    if (error === InterruptedPrompt.EVENT_INTERRUPTED) {
-      answers = {
-        "conventional-summary-description": "Empty summary description",
-      };
-      console.log("Prompt has been interrupted!");
-    } else {
-      console.log("Unexpected error was recivied");
-    }
-  }
+  const summaryDescriptionAnswer: IInquirerAnswers = await runPrompt(conventionalSummaryDescriptionPrompt, "Empty summary description");
 
-  return { ...prevAnswers, ...answers };
+  return { ...prevAnswers, ...summaryDescriptionAnswer };
 };

@@ -1,5 +1,4 @@
-import InterruptedPrompt from "inquirer-interrupted-prompt";
-import inquirer from "inquirer";
+import chalk from "chalk";
 import {
   makePrompt,
   mapToInquirerListAsObject,
@@ -10,7 +9,7 @@ import type {
   IGenericObject,
   IInquirerAnswers,
 } from "../../../core/types/common.types.js";
-import chalk from "chalk";
+import {runPrompt} from "../../../core/utils/inquirerRunPrompt.js";
 
 const gitmojiFormatter = (
   key: string,
@@ -20,21 +19,22 @@ const gitmojiFormatter = (
   value: fullObject[key]?.name,
 });
 
-const getEmojiByConventionalType = (conventionalType: string) => {
+const getEmojiByConventionalType = (conventionalType: unknown) => {
   return conventionalType
     ? gitmojiFormatter(
-        SUGGESTION_EMOJI_TYPES[conventionalType] as string,
+        SUGGESTION_EMOJI_TYPES[conventionalType as string] as string,
         GITEMOJIS
       ).name
     : "";
 };
 
+export const gitmojiID: string = "conventional-gitmoji";
 export const conventionalGitmojiPrompt = async (
   prevAnswers: IInquirerAnswers
 ) => {
-  const conventionalGitmojiPrompt: object = makePrompt({
+  const conventionalGitmojiPrompt: Record<string, unknown> = makePrompt({
     required: true,
-    name: "conventional-gitmoji",
+    name: gitmojiID,
     type: "search-list",
     message: `Commit emoji ${chalk.blueBright(
       "[Select the emoji that reference to your commit]"
@@ -43,17 +43,7 @@ export const conventionalGitmojiPrompt = async (
     default: getEmojiByConventionalType(prevAnswers["conventional-type"] ?? ""),
   });
 
-  let answers = {};
-  try {
-    answers = await inquirer.prompt(conventionalGitmojiPrompt);
-  } catch (error: unknown) {
-    if (error === InterruptedPrompt.EVENT_INTERRUPTED) {
-      answers = { "conventional-gitmoji": ":sparkles:" };
-      console.log("Prompt has been interrupted!");
-    } else {
-      console.log("Unexpected error was recivied");
-    }
-  }
+  const gitmojiAnswer: IInquirerAnswers = await runPrompt(conventionalGitmojiPrompt, ":sparkles:");
 
-  return { ...prevAnswers, ...answers };
+  return { ...prevAnswers, ...gitmojiAnswer };
 };

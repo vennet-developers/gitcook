@@ -18,7 +18,7 @@ export type IGenericKeyString = {
   [key: string]: string;
 };
 
-export type IInquirerAnswers = { [key: string]: string };
+export type IInquirerAnswers = { [key: string]: unknown };
 
 export type chainFn = (
   prevAnswers: IInquirerAnswers
