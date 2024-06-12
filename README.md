@@ -13,6 +13,16 @@ Cli tools is a powerfull tool for standarize the commits and changelogs for your
 
 <br />
 
+## Roadmap
+
+- Commnand to generate compact conventional commit.
+- Command to changelog generation based from coventional commits standar.
+- Validates tags format in the commit footer.
+- Command to register local git projects and automatize the sync of multiple repositories.
+- Integrate ChatGPT to generation of conventional commits quickly.
+
+<br />
+
 ## Installation
 
 To use Git Cook, all you need to do is install the

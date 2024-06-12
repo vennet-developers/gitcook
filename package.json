@@ -1,6 +1,6 @@
 {
   "name": "@vennet/gitcook",
-  "version": "0.6.3",
+  "version": "0.0.0-development",
   "description": "CLI tool for git actions",
   "type": "module",
   "main": "./dist/index.js",
@@ -14,7 +14,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vennet-developers/gitcook.git"
+    "url": "https://github.com/vennet-developers/gitcook.git"
   },
   "bugs": {
     "url": "https://github.com/vennet-developers/gitcook/issues"
@@ -40,7 +40,8 @@
     "pkg:release:dev": "changeset publish --tag dev",
     "pkg:release": "changeset publish",
     "pkg:link": "(pnpm --global unlink @vennet/gitcook || true) && chmod +x ./dist/index.js && pnpm --global link",
-    "pkg:unlink": "pnpm --global unlink @vennet/gitcook"
+    "pkg:unlink": "pnpm --global unlink @vennet/gitcook",
+    "semantic-release": "semantic-release --branches main"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
@@ -51,7 +52,8 @@
     "@types/node": "^20.12.7",
     "@types/update-notifier": "^6.0.8",
     "standard-version": "^9.5.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "semantic-release": "^24.0.0"
   },
   "dependencies": {
     "@elfiner/inquirer-search-list": "^1.2.8",
