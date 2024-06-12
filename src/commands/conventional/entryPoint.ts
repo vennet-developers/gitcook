@@ -54,7 +54,7 @@ const buildCommitHeader = (answers: IInquirerAnswers): string => {
 };
 
 const buildCommitBody = (answers: IInquirerAnswers) => {
-  return `${answers[longDescriptionID] ? (answers[longDescriptionID] as string).trim() : ""} \n\n`;
+  return answers[longDescriptionID] ? `${(answers[longDescriptionID] as string).trim()}\n\n` : "";
 };
 
 const buildCommitFooter = (answers: IInquirerAnswers) => {
@@ -65,9 +65,9 @@ const buildCommitFooter = (answers: IInquirerAnswers) => {
           : ""
   }`;
 
-  const conventionalFooter: string | undefined = (answers[footerID] as string).trim();
+  const conventionalFooter: string = answers[footerID] ? (answers[footerID] as string).trim() : "";
 
-  return `${breakingChangeValue}${conventionalFooter?.trim()}`;
+  return `${breakingChangeValue}${conventionalFooter}`.trim();
 };
 
 const prepareConventionalCommit = (answers: IInquirerAnswers) => {
@@ -98,24 +98,29 @@ const isThereUncommittedChanges = (): boolean => {
   }
 };
 
-export const conventionalCommit = async (commandOptions: OptionValues) => {
+export const conventionalCommit = async (commandOptions: OptionValues): Promise<void> => {
   if (isThereUncommittedChanges()) {
     InterruptedPrompt.fromAll(inquirer);
     inquirer.registerPrompt("search-list", searchList);
 
+    const prompts: chainFn[] = [
+      conventionalTypePrompt,
+      conventionalScopePrompt,
+      conventionalGitmojiPrompt,
+      conventionalSummaryDescriptionPrompt,
+      conventionalBreakingChangePrompt,
+    ]
+
+    if (!commandOptions.compactMode) {
+      prompts.push(conventionalLongDescriptionPrompt);
+      prompts.push(conventionalFooterPrompt);
+    }
+
     const answers: IInquirerAnswers = await stateManager
         .initState({})
-        .pipe(
-            conventionalTypePrompt,
-            conventionalScopePrompt,
-            conventionalGitmojiPrompt,
-            conventionalSummaryDescriptionPrompt,
-            conventionalBreakingChangePrompt,
-            conventionalLongDescriptionPrompt,
-            conventionalFooterPrompt
-        );
+        .pipe(...prompts);
 
-    const conventionalCommit: string = prepareConventionalCommit(answers);
+    const conventionalCommit: string = prepareConventionalCommit(answers).trim();
 
     if (commandOptions.previewMode) {
       console.log(`\n\n${chalk.blueBright(conventionalCommit)}\n\n`);
