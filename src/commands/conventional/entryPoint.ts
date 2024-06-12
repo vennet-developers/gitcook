@@ -21,7 +21,7 @@ import { conventionalLongDescriptionPrompt } from "./prompts/conventionalLongDes
 import { conventionalFooterPrompt } from "./prompts/conventionalFooterPrompt.js";
 import { GIT_COMMANDS } from "./consts/gitCommands.js";
 
-const manager = {
+const stateManager = {
   state: {},
   initState: function (optionsAsParams: IInquirerAnswers = {}) {
     this.state = optionsAsParams;
@@ -98,22 +98,17 @@ export const conventionalCommit = async (commandOptions: OptionValues) => {
     InterruptedPrompt.fromAll(inquirer);
     inquirer.registerPrompt("search-list", searchList);
 
-    const prompts: chainFn[] = [
-      conventionalTypePrompt,
-      conventionalBreakingChangePrompt,
-      conventionalScopePrompt,
-      conventionalGitmojiPrompt,
-      conventionalSummaryDescriptionPrompt,
-    ]
-
-    if (!commandOptions.compactMode) {
-      prompts.push(conventionalLongDescriptionPrompt);
-      prompts.push(conventionalFooterPrompt);
-    }
-
-    const answers: IInquirerAnswers = await manager
+    const answers: IInquirerAnswers = await stateManager
       .initState({})
-      .pipe(...prompts);
+      .pipe(
+        conventionalTypePrompt,
+        conventionalScopePrompt,
+        conventionalGitmojiPrompt,
+        conventionalSummaryDescriptionPrompt,
+        conventionalLongDescriptionPrompt,
+        conventionalFooterPrompt,
+        conventionalBreakingChangePrompt,
+      );
 
     const conventionalCommit = prepareConventionalCommit(answers);
 
