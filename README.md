@@ -13,9 +13,14 @@ Cli tools is a powerfull tool for standarize the commits and changelogs for your
 
 <br />
 
+## Minimum requirements
+
+- Node 20.0.0 or higher / npm 9.5.4 or higher
+
+<br />
+
 ## Roadmap
 
-- Commnand to generate compact conventional commit.
 - Command to changelog generation based from coventional commits standar.
 - Validates tags format in the commit footer.
 - Command to register local git projects and automatize the sync of multiple repositories.
@@ -81,8 +86,9 @@ gcook init [options]  Wizard to create a conventional commit
 ```
 
 | Options                | Description                                                               | Examples                                     |
-| ---------------------- | ------------------------------------------------------------------------- | -------------------------------------------- |
+|------------------------|---------------------------------------------------------------------------|----------------------------------------------|
 | `-pm` `--preview-mode` | Generate the final commit message without execute git commands internally | `gcook init -pm` `gcook init --preview-mode` |
+| `-cm` `--compact-mode` | Generate a simple commit message without body and footer                  | `gcook init -cm` `gcook init --compact-mode` |
 
 <br>
 
