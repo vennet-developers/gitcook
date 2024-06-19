@@ -15,7 +15,7 @@ Cli tools is a powerfull tool for standarize the commits and changelogs for your
 
 ## Minimum requirements
 
-- Node 20.12.2 or higher / npm 10.5.0 or higher
+- Node 20.0.0 or higher / npm 9.5.4 or higher
 
 <br />
 
