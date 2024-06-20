@@ -15,7 +15,7 @@ const prepareBranchName = (answers: IInquirerAnswers) => {
 }
 
 export const branches = async (commandOptions: OptionValues): Promise<void> => {
-    if (isThereUncommittedChanges()) {
+    if (!isThereUncommittedChanges()) {
         const prompts: chainFn[] = [];
 
         if(commandOptions.custom) {
