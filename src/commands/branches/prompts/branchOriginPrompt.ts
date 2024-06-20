@@ -12,7 +12,7 @@ const getLocalBranches = async (): Promise<string[]> => {
 }
 
 const getSelectedBranch = (branches: string[]): string => {
-    return branches?.filter(value => /^[*]/.test(value))[0] || "";
+    return branches?.filter(value => /[*]/.test(value))[0] || "";
 }
 
 export const originID: string = "branch-origin";

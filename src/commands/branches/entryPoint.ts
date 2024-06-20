@@ -33,11 +33,13 @@ export const branches = async (commandOptions: OptionValues): Promise<void> => {
 
         const branchName: string = prepareBranchName(answers);
         const branchOrigin: string = answers[originID] as string;
+
         const createNewBranchCommand: string = stringFormat(GIT_COMMANDS.NEW_BRANCH, {
             branchName,
-            branchOrigin,
+            branchOrigin: branchOrigin.replace("* ", "").trim(),
         });
-        const pushNewBranchCommand: string = stringFormat(GIT_COMMANDS.NEW_BRANCH, {
+
+        const pushNewBranchCommand: string = stringFormat(GIT_COMMANDS.PUSH_BRANCH, {
             remote: "origin",
             branchName,
         });
