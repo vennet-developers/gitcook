@@ -7,7 +7,7 @@ export const footerID: string = "conventional-footer";
 export const conventionalFooterPrompt = async (
   prevAnswers: IInquirerAnswers
 ): Promise<IInquirerAnswers> => {
-  const conventionalFooterPrompt: Record<string, unknown> = makePrompt({
+  const prompt: Record<string, unknown> = makePrompt({
     required: false,
     name: footerID,
     type: "editor",
@@ -18,7 +18,7 @@ export const conventionalFooterPrompt = async (
     interruptedKeyName: "q",
   });
 
-  const footerAnswer: IInquirerAnswers = await runPrompt(conventionalFooterPrompt, "");
+  const footerAnswer: IInquirerAnswers = await runPrompt(prompt, "");
 
   return { ...prevAnswers, ...footerAnswer };
 };

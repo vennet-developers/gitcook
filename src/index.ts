@@ -1,4 +1,6 @@
 #!/usr/bin/env node --no-warnings=ExperimentalWarning
+import {branches} from "./commands/branches/entryPoint.js";
+
 process.removeAllListeners("warning");
 
 import chalk from "chalk";
@@ -9,6 +11,7 @@ import * as emoji from "node-emoji";
 import updateNotifier from "update-notifier";
 import { conventionalCommit } from "./commands/conventional/entryPoint.js";
 import { CLI_CONFIG } from "./core/consts/cli-config.js";
+import { initInquirerAddons } from "./core/utils/inquirerAddons.js";
 
 const program: Command = new Command();
 
@@ -84,6 +87,8 @@ const stats = async () => {
 };
 
 try {
+  initInquirerAddons();
+
   program
     .name(CLI_CONFIG.BIN_NAME)
     .description("CLI to manage git actions easily")
@@ -105,6 +110,14 @@ try {
 
   program
     .command("init")
+    .description("Init a new branch locally and remotely based of user selection")
+    .option("-c, --custom", "Active custom branch name creation")
+    .action(async (options: OptionValues) => {
+        await branches(options)
+    });
+
+  program
+    .command("commit")
     .description("Wizard to create a conventional commit")
     .option("-pm, --preview-mode", "Preview the final structure of the message")
     .option("-cm, --compact-mode", "Create a simple conventional commit")

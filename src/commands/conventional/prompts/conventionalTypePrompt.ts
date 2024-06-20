@@ -18,11 +18,11 @@ const conventionalTypesFormatter = (
 
 export const typeID: string = "conventional-type";
 export const conventionalTypePrompt = async (prevAnswers: IInquirerAnswers) => {
-  const conventionalTypePrompt: Record<string, unknown> = makePrompt({
+  const prompt: Record<string, unknown> = makePrompt({
     required: true,
     name: typeID,
     type: "search-list",
-    message: `Commit Type ${chalk.blueBright(
+    message: `Commit type ${chalk.blueBright(
       "[Select the type that corresponds to the nature of your commit]"
     )}: `,
     choices: mapToInquirerListAsObject(
@@ -45,7 +45,7 @@ export const conventionalTypePrompt = async (prevAnswers: IInquirerAnswers) => {
     },
   });
 
-  const typeAnswer: IInquirerAnswers = await runPrompt(conventionalTypePrompt, "<empty>");
+  const typeAnswer: IInquirerAnswers = await runPrompt(prompt, "<empty>");
   
   return { ...prevAnswers, ...typeAnswer };
 };

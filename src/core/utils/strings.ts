@@ -2,6 +2,10 @@ export const removeLineBreaks = (value: string) => {
   return value.replace(/[\r\n]+/gm, " ");
 };
 
+export const replaceSpacesToUnderscore = (value: string) => {
+  return value.toLowerCase().replace(/ /g, "_");
+}
+
 export const camelize = (str: string): string => {
   if (!str.match(/[\s_-]/g)) {
     return str
@@ -29,11 +33,11 @@ export const stringFormat = (
 ): string => {
   const firstElement = args[0] as Record<string, string | number>;
   if (firstElement && typeof firstElement === "object") {
-    const camelizedObject = firstLevelCamelize(firstElement);
+    const camelizeObject = firstLevelCamelize(firstElement);
 
     return value.replace(/{([0-9a-zA-Z-_]+)}/g, (match: string): string => {
       const key = match.replace(/[}{]/g, "");
-      return ((camelizedObject as Record<string, string | number>)[key] ??
+      return ((camelizeObject as Record<string, string | number>)[key] ??
         match) as string;
     });
   }

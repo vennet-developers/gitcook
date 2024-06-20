@@ -1,9 +1,6 @@
 import { execSync } from "node:child_process";
-import searchList from "@elfiner/inquirer-search-list";
 import chalk from "chalk";
 import type { OptionValues } from "commander";
-import inquirer from "inquirer";
-import InterruptedPrompt from "inquirer-interrupted-prompt";
 
 import type {
   IInquirerAnswers,
@@ -11,36 +8,24 @@ import type {
 } from "../../core/types/common.types.js";
 import { removeLineBreaks, stringFormat } from "../../core/utils/strings.js";
 import { GIT_COMMANDS } from "./consts/gitCommands.js";
-import { GIT_INTENTIONS } from "./consts/gitIntentions.js";
 import { GITEMOJIS } from "./consts/gitmoji.js";
 import {
   breakingChangeID,
   breakingChangeValueID,
   conventionalBreakingChangePrompt
 } from "./prompts/conventionalBreakingChangePrompt.js";
-import {conventionalFooterPrompt, footerID} from "./prompts/conventionalFooterPrompt.js";
-import {conventionalGitmojiPrompt, gitmojiID} from "./prompts/conventionalGitmojiPrompt.js";
-import {conventionalLongDescriptionPrompt, longDescriptionID} from "./prompts/conventionalLongDescriptionPrompt.js";
-import {conventionalScopePrompt, scopeID} from "./prompts/conventionalScopePrompt.js";
+import { conventionalFooterPrompt, footerID } from "./prompts/conventionalFooterPrompt.js";
+import { conventionalGitmojiPrompt, gitmojiID} from "./prompts/conventionalGitmojiPrompt.js";
+import { conventionalLongDescriptionPrompt, longDescriptionID } from "./prompts/conventionalLongDescriptionPrompt.js";
+import { conventionalScopePrompt, scopeID } from "./prompts/conventionalScopePrompt.js";
 import {
   conventionalSummaryDescriptionPrompt,
   summaryDescriptionID
 } from "./prompts/conventionalSummaryDescriptionPrompt.js";
-import {conventionalTypePrompt, typeID} from "./prompts/conventionalTypePrompt.js";
-
-const stateManager = {
-  state: {},
-  initState: function (optionsAsParams: IInquirerAnswers = {}) {
-    this.state = optionsAsParams;
-    return this;
-  },
-  pipe: async function (...fns: chainFn[]) {
-    return fns.reduce(
-      async (prevFun, currentFn) => currentFn(await (prevFun as Promise<IInquirerAnswers>)),
-      this.state
-    );
-  },
-};
+import { conventionalTypePrompt, typeID } from "./prompts/conventionalTypePrompt.js";
+import { stateManager } from "../../core/utils/stateManager.js";
+import { isThereUncommittedChanges } from "../../core/utils/commandInteractions.js";
+import { initInquirerAddons } from "../../core/utils/inquirerAddons.js";
 
 const buildCommitHeader = (answers: IInquirerAnswers): string => {
   const gitemoji: string | undefined = answers[gitmojiID] as string | undefined;
@@ -78,30 +63,10 @@ const prepareConventionalCommit = (answers: IInquirerAnswers) => {
   );
 };
 
-const isThereUncommittedChanges = (): boolean => {
-  try {
-    const changes: string = execSync(GIT_COMMANDS.STATUS).toString();
 
-    if (
-      changes.search(GIT_INTENTIONS.NO_STAGED) !== -1 ||
-      changes.search(GIT_INTENTIONS.UNTRACKED) !== -1 ||
-      changes.search(GIT_INTENTIONS.STAGED) !== -1
-    ) {
-      return true;
-    }
-
-    console.log(chalk.green("Impeccable ✨, you have no changes to manage"));
-    return false;
-  } catch (e) {
-    console.log(chalk.red("Wait 🚫, there is no git repository at this path"));
-    return false;
-  }
-};
 
 export const conventionalCommit = async (commandOptions: OptionValues): Promise<void> => {
   if (isThereUncommittedChanges()) {
-    InterruptedPrompt.fromAll(inquirer);
-    inquirer.registerPrompt("search-list", searchList);
 
     const prompts: chainFn[] = [
       conventionalTypePrompt,
