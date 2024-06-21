@@ -107,7 +107,7 @@ export const conventionalCommit = async (commandOptions: OptionValues): Promise<
     try {
       await executeCommand(command);
       await executeCommand(GIT_COMMANDS.PUSH);
-      loading.succeed(chalk.green(`\n${congrats.trim()}, You have created a new conventional commit 🎉 \n`))
+      loading.succeed(chalk.green(`${congrats.trim()}, You have created a new conventional commit 🎉`))
     } catch (error) {
       loading.fail(error as string);
     }
