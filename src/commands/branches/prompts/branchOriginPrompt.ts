@@ -7,7 +7,7 @@ import { GIT_COMMANDS } from "../../conventional/consts/gitCommands.js";
 
 const getLocalBranches = async (): Promise<string[]> => {
     const branches: string = execSync(GIT_COMMANDS.GET_BRANCHES).toString();
-    const localBranches: string[] = branches?.split('\n')?.map((branch) => /^[*]/.test(branch) ? chalk.green(branch.trim()) : branch.trim() )?.filter(branch => !!branch);
+    const localBranches: string[] = branches?.split('\n')?.map((branch) => branch.trim())?.filter(branch => !!branch && branch.indexOf('HEAD') === -1);
     return localBranches || [];
 }
 

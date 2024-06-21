@@ -88,6 +88,7 @@ const stats = async () => {
 
 try {
   initInquirerAddons();
+  welcome();
 
   program
     .name(CLI_CONFIG.BIN_NAME)
@@ -98,14 +99,14 @@ try {
     .command("check")
     .description("Checks if you are up to date")
     .action(() => {
-      checkPackageVersion();
+        checkPackageVersion();
     });
 
   program
     .command("stats")
     .description("Check how many downloads has the tool")
     .action(async () => {
-      await stats();
+        await stats();
     });
 
   program
@@ -122,9 +123,8 @@ try {
     .option("-pm, --preview-mode", "Preview the final structure of the message")
     .option("-cm, --compact-mode", "Create a simple conventional commit")
     .action(async (options: OptionValues) => {
-      welcome();
-      checkPackageVersion(false);
-      await conventionalCommit(options);
+        checkPackageVersion(false);
+        await conventionalCommit(options);
     });
 
   program.parse(process.argv);

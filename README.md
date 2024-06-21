@@ -62,12 +62,13 @@ The command base for execute the tool is `gcook` with the following base and spe
 gcook [options] [command]
 ```
 
-| Commands | Description                                    | Examples      |
-| -------- | ---------------------------------------------- | ------------- |
-| `check`  | Check if the package is up to date             | `gcook check` |
-| `stats`  | Get all downloads of the package               | `gcook stats` |
-| `help`   | Get all descriptions from command or from base | `gcook help`  |
-| `init`   | Wizard to create a conventional commit         | `gcook init`  |
+| Commands | Description                                    | Examples       |
+|----------|------------------------------------------------|----------------|
+| `check`  | Check if the package is up to date             | `gcook check`  |
+| `stats`  | Get all downloads of the package               | `gcook stats`  |
+| `help`   | Get all descriptions from command or from base | `gcook help`   |
+| `init`   | Wizard to create a branch               | `gcook init`   |
+| `commit` | Wizard to create a conventional commit         | `gcook commit` |
 
 ### Base Options
 
@@ -83,13 +84,23 @@ gcook [options]
 ### `init` Options
 
 ```sh
-gcook init [options]  Wizard to create a conventional commit
+gcook init [options]  Wizard to create a branch
 ```
 
-| Options                | Description                                                               | Examples                                     |
-|------------------------|---------------------------------------------------------------------------|----------------------------------------------|
-| `-pm` `--preview-mode` | Generate the final commit message without execute git commands internally | `gcook init -pm` `gcook init --preview-mode` |
-| `-cm` `--compact-mode` | Generate a simple commit message without body and footer                  | `gcook init -cm` `gcook init --compact-mode` |
+| Options         | Description                                                               | Examples                              |
+|-----------------|---------------------------------------------------------------------------|---------------------------------------|
+| `-c` `--custom` | Active custom branch name creation | `gcook init -c` `gcook init --custom` |
+
+### `commit` Options
+
+```sh
+gcook commit [options]  Wizard to create a conventional commit
+```
+
+| Options                | Description                                                               | Examples                                       |
+|------------------------|---------------------------------------------------------------------------|------------------------------------------------|
+| `-pm` `--preview-mode` | Generate the final commit message without execute git commands internally | `gcook commit -pm` `gcook commit --preview-mode` |
+| `-cm` `--compact-mode` | Generate a simple commit message without body and footer                  | `gcook commit -cm` `gcook commit --compact-mode`   |
 
 <br>
 
@@ -103,14 +114,15 @@ Usage: gcook [options] [command]
 CLI to manage git actions easily
 
 Options:
-  -V, --version   output the version number
-  -h, --help      display help for command
+  -V, --version     output the version number
+  -h, --help        display help for command
 
 Commands:
-  check           Checks if you are up to date
-  stats           Check how many downloads has the tool
-  init [options]  Wizard to create a conventional commit
-  help [command]  display help for command
+  check             Checks if you are up to date
+  stats             Check how many downloads has the tool
+  init [options]    Init a new branch locally and remotely based of user selection
+  commit [options]  Wizard to create a conventional commit
+  help [command]    display help for command
 ```
 
 <br>

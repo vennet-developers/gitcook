@@ -24,8 +24,12 @@ import {
 } from "./prompts/conventionalSummaryDescriptionPrompt.js";
 import { conventionalTypePrompt, typeID } from "./prompts/conventionalTypePrompt.js";
 import { stateManager } from "../../core/utils/stateManager.js";
-import { isThereUncommittedChanges } from "../../core/utils/commandInteractions.js";
-import { initInquirerAddons } from "../../core/utils/inquirerAddons.js";
+import {
+  checkUncommittedChanges,
+  executeCommand,
+  isThereUncommittedChanges
+} from "../../core/utils/commandInteractions.js";
+import {initLoading} from "../../core/utils/loading.js";
 
 const buildCommitHeader = (answers: IInquirerAnswers): string => {
   const gitemoji: string | undefined = answers[gitmojiID] as string | undefined;
@@ -66,6 +70,7 @@ const prepareConventionalCommit = (answers: IInquirerAnswers) => {
 
 
 export const conventionalCommit = async (commandOptions: OptionValues): Promise<void> => {
+  checkUncommittedChanges();
   if (isThereUncommittedChanges()) {
 
     const prompts: chainFn[] = [
@@ -92,25 +97,19 @@ export const conventionalCommit = async (commandOptions: OptionValues): Promise<
       return;
     }
 
+    const name: string = (await executeCommand(GIT_COMMANDS.GET_CONFIG_USERNAME)).stdout;
+    const congrats: string = `Congrats ${removeLineBreaks(name).trim()}`;
+    const command: string = stringFormat(GIT_COMMANDS.ADD_AND_COMMIT, {
+      commit: conventionalCommit,
+    });
+
+    const loading = initLoading("Committing changes...");
     try {
-      const name: string = execSync(GIT_COMMANDS.GET_CONFIG_USERNAME).toString();
-      const congrats: string = `Congrats ${removeLineBreaks(name).trim()}`;
-      console.log(
-        chalk.green(
-          `\n${congrats.trim()}, You have created a new conventional commit 🎉 \n`
-        )
-      );
-
-      const command: string = stringFormat(GIT_COMMANDS.ADD_AND_COMMIT, {
-        commit: conventionalCommit,
-      });
-
-      const executeCommit: string = execSync(command).toString();
-      console.log(executeCommit);
-      const executePush: string = execSync(GIT_COMMANDS.PUSH).toString();
-      console.log(executePush);
+      await executeCommand(command);
+      await executeCommand(GIT_COMMANDS.PUSH);
+      loading.succeed(chalk.green(`\n${congrats.trim()}, You have created a new conventional commit 🎉 \n`))
     } catch (error) {
-      console.log(error);
+      loading.fail(error as string);
     }
   }
 };

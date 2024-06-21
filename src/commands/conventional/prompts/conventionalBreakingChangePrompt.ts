@@ -9,7 +9,7 @@ export const breakingChangeValueID: string = "conventional-breaking-change-value
 export const conventionalBreakingChangePrompt = async (
   prevAnswers: IInquirerAnswers
 ): Promise<IInquirerAnswers> => {
-  const prompt: Record<string, unknown> = makePrompt({
+  const conventionalBreakingChangePrompt: Record<string, unknown> = makePrompt({
     required: true,
     name: breakingChangeID,
     type: "confirm",
@@ -26,8 +26,8 @@ export const conventionalBreakingChangePrompt = async (
     interruptedKeyName: "q",
   });
 
-  const breakingChangeAnswer: IInquirerAnswers = await runPrompt(prompt, false);
-  if (breakingChangeAnswer[conventionalBreakingChangePrompt.name as string]) {
+  const breakingChangeAnswer: IInquirerAnswers = await runPrompt(conventionalBreakingChangePrompt, false);
+  if (breakingChangeAnswer[breakingChangeID]) {
     const breakingChangeValueAnswer: IInquirerAnswers = await runPrompt(conventionalBreakingChangeValuePrompt, "");
     return { ...prevAnswers, ...breakingChangeAnswer, ...breakingChangeValueAnswer } as IInquirerAnswers;
   }

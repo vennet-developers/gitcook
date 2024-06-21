@@ -1,14 +1,16 @@
-import type { OptionValues } from "commander";
+import { exec } from "node:child_process";
 import chalk from "chalk";
-import type { chainFn, IInquirerAnswers } from "../../core/types/common.types.js";
+import type { OptionValues } from "commander";
+import loading from 'loading-cli';
+import type { IInquirerAnswers, chainFn } from "../../core/types/common.types.js";
+import { executeCommand, isThereUncommittedChanges } from "../../core/utils/commandInteractions.js";
 import { stateManager } from "../../core/utils/stateManager.js";
-import { isThereUncommittedChanges } from "../../core/utils/commandInteractions.js";
 import {replaceSpacesToUnderscore, stringFormat} from "../../core/utils/strings.js";
-import { branchTypesPrompt, typeID } from "./prompts/branchTypesPrompt.js";
+import { GIT_COMMANDS } from "../conventional/consts/gitCommands.js";
 import { branchNamePrompt, nameID } from "./prompts/branchNamePrompt.js";
 import { branchOriginPrompt, originID } from "./prompts/branchOriginPrompt.js";
-import {execSync} from "node:child_process";
-import {GIT_COMMANDS} from "../conventional/consts/gitCommands.js";
+import { branchTypesPrompt, typeID } from "./prompts/branchTypesPrompt.js";
+import {initLoading} from "../../core/utils/loading.js";
 
 const prepareBranchName = (answers: IInquirerAnswers) => {
     return `${answers[typeID] ? `${answers[typeID]}/` : ''}${replaceSpacesToUnderscore(answers[nameID] as string)}`.trim();
@@ -34,9 +36,11 @@ export const branches = async (commandOptions: OptionValues): Promise<void> => {
         const branchName: string = prepareBranchName(answers);
         const branchOrigin: string = answers[originID] as string;
 
+        const branchOriginNormalized: string = branchOrigin.replace("* ", "").trim();
+
         const createNewBranchCommand: string = stringFormat(GIT_COMMANDS.NEW_BRANCH, {
             branchName,
-            branchOrigin: branchOrigin.replace("* ", "").trim(),
+            branchOrigin: branchOriginNormalized,
         });
 
         const pushNewBranchCommand: string = stringFormat(GIT_COMMANDS.PUSH_BRANCH, {
@@ -44,15 +48,16 @@ export const branches = async (commandOptions: OptionValues): Promise<void> => {
             branchName,
         });
 
+        const loading = initLoading(`Creating ${chalk.blueBright(branchName)} branch...`);
         try {
-            const createNewBranchExecution: string = execSync(createNewBranchCommand).toString();
-            console.log(createNewBranchExecution);
-            const pushNewBranchExecution: string = execSync(pushNewBranchCommand).toString();
-            console.log(pushNewBranchExecution);
-        } catch (error) {
-            console.log(error);
-        }
+            await executeCommand(GIT_COMMANDS.FETCH_ALL);
+            await executeCommand(createNewBranchCommand);
+            await executeCommand(pushNewBranchCommand);
 
+            loading.succeed(`Branch ${chalk.green(branchName)} was created successfully.`);
+        } catch (error) {
+            loading.fail(error as string);
+        }
     } else {
         console.log(`\n${chalk.red('There are changes pending to commit.')} You can run ${chalk.blue('> gcook commit')} command\n`);
     }
