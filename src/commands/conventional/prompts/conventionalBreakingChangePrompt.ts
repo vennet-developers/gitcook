@@ -27,7 +27,7 @@ export const conventionalBreakingChangePrompt = async (
   });
 
   const breakingChangeAnswer: IInquirerAnswers = await runPrompt(conventionalBreakingChangePrompt, false);
-  if (breakingChangeAnswer[conventionalBreakingChangePrompt.name as string]) {
+  if (breakingChangeAnswer[breakingChangeID]) {
     const breakingChangeValueAnswer: IInquirerAnswers = await runPrompt(conventionalBreakingChangeValuePrompt, "");
     return { ...prevAnswers, ...breakingChangeAnswer, ...breakingChangeValueAnswer } as IInquirerAnswers;
   }

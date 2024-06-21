@@ -32,7 +32,7 @@ export const gitmojiID: string = "conventional-gitmoji";
 export const conventionalGitmojiPrompt = async (
   prevAnswers: IInquirerAnswers
 ) => {
-  const conventionalGitmojiPrompt: Record<string, unknown> = makePrompt({
+  const prompt: Record<string, unknown> = makePrompt({
     required: true,
     name: gitmojiID,
     type: "search-list",
@@ -43,7 +43,7 @@ export const conventionalGitmojiPrompt = async (
     default: getEmojiByConventionalType(prevAnswers["conventional-type"] ?? ""),
   });
 
-  const gitmojiAnswer: IInquirerAnswers = await runPrompt(conventionalGitmojiPrompt, ":sparkles:");
+  const gitmojiAnswer: IInquirerAnswers = await runPrompt(prompt, ":sparkles:");
 
   return { ...prevAnswers, ...gitmojiAnswer };
 };

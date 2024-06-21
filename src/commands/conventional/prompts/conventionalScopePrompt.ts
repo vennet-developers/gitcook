@@ -7,18 +7,18 @@ export const scopeID: string = "conventional-scope";
 export const conventionalScopePrompt = async (
   prevAnswers: IInquirerAnswers
 ) => {
-  const conventionalScopePrompt: Record<string, unknown> = makePrompt({
+  const prompt: Record<string, unknown> = makePrompt({
     required: false,
     name: scopeID,
     type: "input",
-    message: `Commit Scope ${chalk.blueBright(
+    message: `Commit scope ${chalk.blueBright(
       "[Enter the scope that describes the section of code you touched]"
     )} ${chalk.green("(optional)")}: `,
     default: undefined,
     interruptedKeyName: "q",
   });
 
-  const scopeAnswer: IInquirerAnswers = await runPrompt(conventionalScopePrompt, "");
+  const scopeAnswer: IInquirerAnswers = await runPrompt(prompt, "");
 
   return { ...prevAnswers, ...scopeAnswer };
 };

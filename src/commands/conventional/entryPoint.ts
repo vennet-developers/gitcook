@@ -1,9 +1,6 @@
 import { execSync } from "node:child_process";
-import searchList from "@elfiner/inquirer-search-list";
 import chalk from "chalk";
 import type { OptionValues } from "commander";
-import inquirer from "inquirer";
-import InterruptedPrompt from "inquirer-interrupted-prompt";
 
 import type {
   IInquirerAnswers,
@@ -11,36 +8,28 @@ import type {
 } from "../../core/types/common.types.js";
 import { removeLineBreaks, stringFormat } from "../../core/utils/strings.js";
 import { GIT_COMMANDS } from "./consts/gitCommands.js";
-import { GIT_INTENTIONS } from "./consts/gitIntentions.js";
 import { GITEMOJIS } from "./consts/gitmoji.js";
 import {
   breakingChangeID,
   breakingChangeValueID,
   conventionalBreakingChangePrompt
 } from "./prompts/conventionalBreakingChangePrompt.js";
-import {conventionalFooterPrompt, footerID} from "./prompts/conventionalFooterPrompt.js";
-import {conventionalGitmojiPrompt, gitmojiID} from "./prompts/conventionalGitmojiPrompt.js";
-import {conventionalLongDescriptionPrompt, longDescriptionID} from "./prompts/conventionalLongDescriptionPrompt.js";
-import {conventionalScopePrompt, scopeID} from "./prompts/conventionalScopePrompt.js";
+import { conventionalFooterPrompt, footerID } from "./prompts/conventionalFooterPrompt.js";
+import { conventionalGitmojiPrompt, gitmojiID} from "./prompts/conventionalGitmojiPrompt.js";
+import { conventionalLongDescriptionPrompt, longDescriptionID } from "./prompts/conventionalLongDescriptionPrompt.js";
+import { conventionalScopePrompt, scopeID } from "./prompts/conventionalScopePrompt.js";
 import {
   conventionalSummaryDescriptionPrompt,
   summaryDescriptionID
 } from "./prompts/conventionalSummaryDescriptionPrompt.js";
-import {conventionalTypePrompt, typeID} from "./prompts/conventionalTypePrompt.js";
-
-const stateManager = {
-  state: {},
-  initState: function (optionsAsParams: IInquirerAnswers = {}) {
-    this.state = optionsAsParams;
-    return this;
-  },
-  pipe: async function (...fns: chainFn[]) {
-    return fns.reduce(
-      async (prevFun, currentFn) => currentFn(await (prevFun as Promise<IInquirerAnswers>)),
-      this.state
-    );
-  },
-};
+import { conventionalTypePrompt, typeID } from "./prompts/conventionalTypePrompt.js";
+import { stateManager } from "../../core/utils/stateManager.js";
+import {
+  checkUncommittedChanges,
+  executeCommand,
+  isThereUncommittedChanges
+} from "../../core/utils/commandInteractions.js";
+import {initLoading} from "../../core/utils/loading.js";
 
 const buildCommitHeader = (answers: IInquirerAnswers): string => {
   const gitemoji: string | undefined = answers[gitmojiID] as string | undefined;
@@ -78,30 +67,11 @@ const prepareConventionalCommit = (answers: IInquirerAnswers) => {
   );
 };
 
-const isThereUncommittedChanges = (): boolean => {
-  try {
-    const changes: string = execSync(GIT_COMMANDS.STATUS).toString();
 
-    if (
-      changes.search(GIT_INTENTIONS.NO_STAGED) !== -1 ||
-      changes.search(GIT_INTENTIONS.UNTRACKED) !== -1 ||
-      changes.search(GIT_INTENTIONS.STAGED) !== -1
-    ) {
-      return true;
-    }
-
-    console.log(chalk.green("Impeccable ✨, you have no changes to manage"));
-    return false;
-  } catch (e) {
-    console.log(chalk.red("Wait 🚫, there is no git repository at this path"));
-    return false;
-  }
-};
 
 export const conventionalCommit = async (commandOptions: OptionValues): Promise<void> => {
+  checkUncommittedChanges();
   if (isThereUncommittedChanges()) {
-    InterruptedPrompt.fromAll(inquirer);
-    inquirer.registerPrompt("search-list", searchList);
 
     const prompts: chainFn[] = [
       conventionalTypePrompt,
@@ -127,25 +97,19 @@ export const conventionalCommit = async (commandOptions: OptionValues): Promise<
       return;
     }
 
+    const name: string = (await executeCommand(GIT_COMMANDS.GET_CONFIG_USERNAME)).stdout;
+    const congrats: string = `Congrats ${removeLineBreaks(name).trim()}`;
+    const command: string = stringFormat(GIT_COMMANDS.ADD_AND_COMMIT, {
+      commit: conventionalCommit,
+    });
+
+    const loading = initLoading("Committing changes...");
     try {
-      const name: string = execSync(GIT_COMMANDS.GET_CONFIG_USERNAME).toString();
-      const congrats: string = `Congrats ${removeLineBreaks(name).trim()}`;
-      console.log(
-        chalk.green(
-          `\n${congrats.trim()}, You have created a new conventional commit 🎉 \n`
-        )
-      );
-
-      const command: string = stringFormat(GIT_COMMANDS.ADD_AND_COMMIT, {
-        commit: conventionalCommit,
-      });
-
-      const executeCommit: string = execSync(command).toString();
-      console.log(executeCommit);
-      const executePush: string = execSync(GIT_COMMANDS.PUSH).toString();
-      console.log(executePush);
+      await executeCommand(command);
+      await executeCommand(GIT_COMMANDS.PUSH);
+      loading.succeed(chalk.green(`${congrats.trim()}, You have created a new conventional commit 🎉`))
     } catch (error) {
-      console.log(error);
+      loading.fail(error as string);
     }
   }
 };

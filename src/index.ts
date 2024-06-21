@@ -1,4 +1,6 @@
 #!/usr/bin/env node --no-warnings=ExperimentalWarning
+import {branches} from "./commands/branches/entryPoint.js";
+
 process.removeAllListeners("warning");
 
 import chalk from "chalk";
@@ -9,6 +11,7 @@ import * as emoji from "node-emoji";
 import updateNotifier from "update-notifier";
 import { conventionalCommit } from "./commands/conventional/entryPoint.js";
 import { CLI_CONFIG } from "./core/consts/cli-config.js";
+import { initInquirerAddons } from "./core/utils/inquirerAddons.js";
 
 const program: Command = new Command();
 
@@ -84,6 +87,9 @@ const stats = async () => {
 };
 
 try {
+  initInquirerAddons();
+  welcome();
+
   program
     .name(CLI_CONFIG.BIN_NAME)
     .description("CLI to manage git actions easily")
@@ -93,25 +99,32 @@ try {
     .command("check")
     .description("Checks if you are up to date")
     .action(() => {
-      checkPackageVersion();
+        checkPackageVersion();
     });
 
   program
     .command("stats")
     .description("Check how many downloads has the tool")
     .action(async () => {
-      await stats();
+        await stats();
     });
 
   program
     .command("init")
+    .description("Init a new branch locally and remotely based of user selection")
+    .option("-c, --custom", "Active custom branch name creation")
+    .action(async (options: OptionValues) => {
+        await branches(options)
+    });
+
+  program
+    .command("commit")
     .description("Wizard to create a conventional commit")
     .option("-pm, --preview-mode", "Preview the final structure of the message")
     .option("-cm, --compact-mode", "Create a simple conventional commit")
     .action(async (options: OptionValues) => {
-      welcome();
-      checkPackageVersion(false);
-      await conventionalCommit(options);
+        checkPackageVersion(false);
+        await conventionalCommit(options);
     });
 
   program.parse(process.argv);

@@ -7,7 +7,7 @@ export const summaryDescriptionID: string = "conventional-summary-description";
 export const conventionalSummaryDescriptionPrompt = async (
   prevAnswers: IInquirerAnswers
 ) => {
-  const conventionalSummaryDescriptionPrompt: Record<string, unknown> = makePrompt({
+  const prompt: Record<string, unknown> = makePrompt({
     required: true,
     name: summaryDescriptionID,
     type: "input",
@@ -17,7 +17,7 @@ export const conventionalSummaryDescriptionPrompt = async (
     default: undefined,
   });
 
-  const summaryDescriptionAnswer: IInquirerAnswers = await runPrompt(conventionalSummaryDescriptionPrompt, "Empty summary description");
+  const summaryDescriptionAnswer: IInquirerAnswers = await runPrompt(prompt, "Empty summary description");
 
   return { ...prevAnswers, ...summaryDescriptionAnswer };
 };

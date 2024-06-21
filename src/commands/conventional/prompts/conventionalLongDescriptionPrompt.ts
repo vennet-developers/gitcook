@@ -7,7 +7,7 @@ export const longDescriptionID: string = "conventional-long-description";
 export const conventionalLongDescriptionPrompt = async (
   prevAnswers: IInquirerAnswers
 ): Promise<IInquirerAnswers> => {
-  const conventionalLongDescriptionPrompt: Record<string, unknown> = makePrompt({
+  const prompt: Record<string, unknown> = makePrompt({
     required: false,
     name: longDescriptionID,
     type: "editor",
@@ -18,7 +18,7 @@ export const conventionalLongDescriptionPrompt = async (
     interruptedKeyName: "q",
   });
 
-  const gitmojiAnswer: IInquirerAnswers = await runPrompt(conventionalLongDescriptionPrompt, "");
+  const gitmojiAnswer: IInquirerAnswers = await runPrompt(prompt, "");
 
   return { ...prevAnswers, ...gitmojiAnswer };
 };
