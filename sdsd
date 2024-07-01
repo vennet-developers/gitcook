@@ -1,0 +1,1 @@
+Fix vulnerability with dependency prototype pollution in inquirer > lodash package
